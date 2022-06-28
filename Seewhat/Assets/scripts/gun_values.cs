@@ -11,9 +11,12 @@ public class gun_values : MonoBehaviour
     public gun gun;
     public player_mover player_mover;
 
+    GameObject basenemy;
+
     public GameObject revolver;
     public GameObject pistol;
     public GameObject current_gun;
+    public AudioClip currentaudio;
 
     public float shootValueY=0.0f;
     public float shootValueX=0.0f;
@@ -34,10 +37,12 @@ public class gun_values : MonoBehaviour
         revolver.SetActive(false);
         }
         current_gun=pistol;
-        gun=pistol.GetComponent<gun>();
+        gun=current_gun.GetComponent<gun>();
         ammocount=magsize;
         canshoot=true;
         Currentgun.text="Selected gun:Uzi(0)";
+        gun.currentsound=gun.gameObject.GetComponent<AudioSource>();
+        gun.currentsound.clip=Resources.Load<AudioClip>("Sounds/uzisound");
         magsize=30;
         ammocount=magsize;
         Currentammo.text="Ammo count:" + ammocount;
@@ -54,6 +59,10 @@ public class gun_values : MonoBehaviour
         compensation=7;
         automatic=true;
         shotgun=false;
+        basenemy=GameObject.Find("Cube");
+        for (int i=-50;i<50;i+=10) {
+        Instantiate(basenemy,new Vector3(i,7.18f,i), Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
@@ -83,7 +92,7 @@ public class gun_values : MonoBehaviour
         shotgun=false;
         Currentgun.text="Selected gun:Uzi(0)";
         current_gun=pistol;
-        
+        currentaudio=Resources.Load<AudioClip>("Sounds/uzisound");
       }
       //Pistol
       if (Input.GetKeyDown(KeyCode.Alpha1)) {
@@ -102,6 +111,7 @@ public class gun_values : MonoBehaviour
         shotgun=false;
         Currentgun.text="Selected gun:Pistol(1)";
         current_gun=revolver;
+        currentaudio=Resources.Load<AudioClip>("Sounds/pistolsound");
       }
       //Assault rifle
       if (Input.GetKeyDown(KeyCode.Alpha2)) {
@@ -120,6 +130,7 @@ public class gun_values : MonoBehaviour
         shotgun=false;
         Currentgun.text="Selected gun:Assault rifle(2)";
         current_gun=revolver;
+        currentaudio=Resources.Load<AudioClip>("Sounds/uzisound");
       }
       //Shotgun
       if (Input.GetKeyDown(KeyCode.Alpha3)) {
@@ -138,11 +149,14 @@ public class gun_values : MonoBehaviour
         shotgun=true;
         Currentgun.text="Selected gun:Shotgun(3)";
         current_gun=revolver;
+        currentaudio=Resources.Load<AudioClip>("Sounds/shotgunsound");
       }
       current_gun.SetActive(true);
       player_mover.CylinderCube=current_gun.transform;
       player_mover.gun=current_gun.GetComponent<gun>();
       gun=current_gun.GetComponent<gun>();
+      gun.currentsound=gun.gameObject.GetComponent<AudioSource>();
+      gun.currentsound.clip=currentaudio;
       StartCoroutine(gun.reload());
       yield return null;
     }

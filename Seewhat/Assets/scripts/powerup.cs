@@ -23,11 +23,13 @@ public class powerup : MonoBehaviour
         totalheat+=5.0f;
         totalheat=Mathf.Clamp(totalheat,0.0f, 100f);
         heatgauge.fillAmount = Mathf.Clamp(totalheat/100,0.0f, 1f);
+        player_mover.music.pitch=0.7f+ Mathf.Clamp(totalheat/250,0.0f, 0.4f);
     }
     public void decreaseheat() {
         totalheat-=5.0f;
         totalheat=Mathf.Clamp(totalheat,0.0f, 100f);
         heatgauge.fillAmount = Mathf.Clamp(totalheat/100,0.0f, 1f);
+        player_mover.music.pitch=0.7f+ Mathf.Clamp(totalheat/250,0.0f, 0.4f);
     }
     
 }

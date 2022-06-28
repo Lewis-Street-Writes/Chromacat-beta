@@ -14,6 +14,9 @@ public class player_mover : MonoBehaviour
     [SerializeField] public Text Currenthealth;
     public bool isalive;
 
+    float currentcamy=0.0f;
+    float currentcamx=0.0f;
+
     [SerializeField] public Transform CylinderCamera = null;
     [SerializeField] public Transform CylinderCube = null;
     [SerializeField] float mouseSensitivity = 5.0f;
@@ -24,7 +27,7 @@ public class player_mover : MonoBehaviour
 
     [SerializeField] bool lockCursor= true;
 
-    float cameraPitch = 0.0f;
+    public float cameraPitch = 0.0f;
     float velocityY=0.0f;
     CharacterController controller = null;
 
@@ -39,9 +42,13 @@ public class player_mover : MonoBehaviour
     Vector2 currentMouseDelta = Vector2.zero;
     Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+    public AudioSource music;
+
     // Start is called before the first frame update
     void Start()
     {
+        music=gameObject.GetComponent<AudioSource>();
+        music.pitch=0.7f;
         health=maxhealth;
         Currenthealth.text=health.ToString();
         isalive=true;
@@ -57,7 +64,7 @@ public class player_mover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (health==0) {
+        if (health<0) {
         playerdeath();
         }
         Mover();
@@ -72,20 +79,22 @@ public class player_mover : MonoBehaviour
         currentMouseDelta = Vector2.SmoothDamp(currentMouseDelta, targetMouseDelta, ref currentMouseDeltaVelocity, mouseSmoothTime);
         cameraPitch -= currentMouseDelta.y * mouseSensitivity;
         cameraPitch = Mathf.Clamp(cameraPitch, -90.0f, 90.0f);
-        CylinderCube.transform.localPosition = new Vector3(1.0f,(-cameraPitch/400*1.0f)+1.08f,-(Mathf.Abs(cameraPitch)/100*1.0f)+1.1f);
+        currentcamy=cameraPitch;
+        currentcamx+=currentMouseDelta.x * mouseSensitivity;
 
-        CylinderCamera.transform.localEulerAngles = Vector3.right * cameraPitch;
+        CylinderCamera.transform.position = transform.position+ new Vector3(0,2.3f,0);
         transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivity);
 
         if(currentMouseDelta.x>= 0.05f * mouseSensitivity) {
-         CylinderCube.localEulerAngles = new Vector3((cameraPitch/2.7f -gun_values.shootValueY),-gun_values.shootValueX -20,-3f); ;
+         CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,-5f);
         };
         if(currentMouseDelta.x<= -0.05f * mouseSensitivity) {
-         CylinderCube.localEulerAngles = new Vector3((cameraPitch/2.7f -gun_values.shootValueY),-gun_values.shootValueX -20,3f); ;
+         CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,5f);
         };
         if(currentMouseDelta.x>= -0.05f * mouseSensitivity && currentMouseDelta.x<= 0.05f * mouseSensitivity ) {
-        CylinderCube.localEulerAngles = new Vector3((cameraPitch/2.7f -gun_values.shootValueY),-gun_values.shootValueX -20,0); ;
+       CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,0);
         };
+                CylinderCamera.transform.localEulerAngles = new Vector3 (currentcamy,currentcamx,0);
         yield return null;
         
     }

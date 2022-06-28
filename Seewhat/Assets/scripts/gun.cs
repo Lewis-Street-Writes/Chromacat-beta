@@ -9,10 +9,13 @@ public class gun : MonoBehaviour
     public gun_values gun_values;
     public powerup powerup;
 
+    public AudioSource currentsound;
+
     public RaycastHit rayhit;
 
     //bullet holes
     public GameObject bulletholeasset;
+    public GameObject muzzleflashasset;
 
     // Start is called before the first frame update
    
@@ -66,7 +69,7 @@ public class gun : MonoBehaviour
       float spready=Random.Range(-gun_values.spread,gun_values.spread);
 
       if (gun_values.shootValueY<gun_values.maxrecoil) {
-      gun_values.shootValueY+=Mathf.Clamp((gun_values.recoil-(powerup.totalheat/250)),0,gun_values.recoil);
+      gun_values.shootValueY+=Mathf.Clamp((gun_values.recoil-(powerup.totalheat/150)),0,gun_values.recoil);
       gun_values.slowfall=gun_values.shootValueY/(gun_values.compensation+(powerup.totalheat/50));
       }
       Vector3 direction =player_mover.CylinderCamera.transform.forward + new Vector3(spreadx,spready,0);
@@ -81,6 +84,10 @@ public class gun : MonoBehaviour
           rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(gun_values.damage);
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
           rayhit.collider.GetComponentInParent<enemy_behaviour>().target=gameObject.transform.parent.gameObject;
+          foreach(GameObject enem in GameObject.FindGameObjectsWithTag("Enemy")) {
+                enem.GetComponentInParent<enemy_behaviour>().ishostile=true;
+                 enem.GetComponentInParent<enemy_behaviour>().target=gameObject.transform.parent.gameObject;
+            }
         }    
 
         else {
@@ -90,6 +97,8 @@ public class gun : MonoBehaviour
 
       //Bullets
       gun_values.ammocount--;
+      Instantiate(muzzleflashasset, gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
+      currentsound.Play();
       gun_values.Currentammo.text="Ammo count:" + gun_values.ammocount;
       yield return StartCoroutine(player_mover.MouseLook());
       }
@@ -114,6 +123,9 @@ public class gun : MonoBehaviour
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
           rayhit.collider.GetComponentInParent<enemy_behaviour>().target=gameObject.transform.parent.gameObject;
         }       
+        else{
+          Instantiate(bulletholeasset, rayhit.point, Quaternion.Euler(0,180,0)); 
+        }
       }
       }
       if (gun_values.shootValueY<gun_values.maxrecoil) {
@@ -121,6 +133,8 @@ public class gun : MonoBehaviour
       gun_values.slowfall=gun_values.shootValueY/(gun_values.compensation+(powerup.totalheat/50));
       }
       gun_values.ammocount--;
+      Instantiate(muzzleflashasset, gameObject.transform.position, Quaternion.Euler(0,180,0)); 
+      currentsound.Play();
       gun_values.Currentammo.text="Ammo count:" + gun_values.ammocount;
       //Bullets      
       yield return StartCoroutine(player_mover.MouseLook());
