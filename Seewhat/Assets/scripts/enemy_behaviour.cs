@@ -21,6 +21,7 @@ public class enemy_behaviour : MonoBehaviour
 
     //bullet holes
     public GameObject bulletholeasset;
+     public GameObject muzzleflashasset;
 
     // Start is called before the first frame update
     void Start()
@@ -81,18 +82,21 @@ public class enemy_behaviour : MonoBehaviour
         // This would cast rays only against colliders in layer 8.
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
-        Vector3 shotdirection=target.transform.position-gameObject.transform.position;
-        Debug.DrawRay(gameObject.transform.position, shotdirection*1000,Color.red,1000);
-        if (Physics.Raycast(gameObject.transform.position, shotdirection, out rayhit,1000,layerMask,  QueryTriggerInteraction.UseGlobal)) {
+        Vector3 shotdirection=target.transform.position-(gameObject.transform.GetChild(0).transform.position+ gameObject.transform.GetChild(0).transform.forward);
+        //Debug.DrawRay(gameObject.transform.GetChild(0).transform.position+ gameObject.transform.GetChild(0).transform.forward, shotdirection*1000,Color.red,1000);
+        if (Physics.Raycast(gameObject.transform.GetChild(0).transform.position+ gameObject.transform.GetChild(0).transform.forward, shotdirection, out rayhit,1000,layerMask,  QueryTriggerInteraction.UseGlobal)) {
         if (rayhit.collider.CompareTag("Player")) {
             player_mover.playertakeDamage(1);
         }
         else {
           Instantiate(bulletholeasset, rayhit.point, Quaternion.Euler(0,180,0));
-          Debug.Log("miss"); 
         }
       }
+      Instantiate(muzzleflashasset,gameObject.transform.GetChild(0).transform.position+ gameObject.transform.GetChild(0).transform.forward, Quaternion.identity);
       timingtime=0;
+      }
+      if (Mathf.Sqrt((gameObject.transform.position.x-target.transform.position.x)*(gameObject.transform.position.x-target.transform.position.x)+(gameObject.transform.position.z-target.transform.position.z)*(gameObject.transform.position.z-target.transform.position.z))>10) {
+        gameObject.transform.position += -transform.forward * Time.deltaTime * 2;
       }
     }
     }

@@ -10,6 +10,7 @@ public class gun_values : MonoBehaviour
 
     public gun gun;
     public player_mover player_mover;
+    public powerup powerup;
 
     GameObject basenemy;
 
@@ -54,12 +55,19 @@ public class gun_values : MonoBehaviour
         range=1000000.0f;
         reloadtime=1.3f;
         shotdelay=0.0f;
-        recoil=1.0f;
-        maxrecoil=15.0f;
+        recoil=0.3f;
+        maxrecoil=0.6f;
         compensation=7;
         automatic=true;
         shotgun=false;
-        basenemy=GameObject.Find("Cube");
+
+        gun.currentfirerate=firerate-(powerup.totalheat/100);
+        gun.currentshotdelay=shotdelay/10-(powerup.totalheat/100);
+        gun.currentrecoil=recoil-(powerup.totalheat/150);
+        gun.currentcompensation=compensation+(powerup.totalheat/50);
+        gun.currentreload=reloadtime-(powerup.totalheat/80);
+
+        basenemy=GameObject.Find("simpleenemy");
         for (int i=-50;i<50;i+=10) {
         Instantiate(basenemy,new Vector3(i,7.18f,i), Quaternion.identity);
         }
@@ -85,8 +93,8 @@ public class gun_values : MonoBehaviour
         range=1000.0f;
         reloadtime=1.3f;
         shotdelay=0.0f;
-        recoil=1.0f;
-        maxrecoil=15.0f;
+        recoil=0.3f;
+        maxrecoil=0.6f;
         compensation=7;
         automatic=true;
         shotgun=false;
@@ -104,9 +112,9 @@ public class gun_values : MonoBehaviour
         range=1000.0f;
         reloadtime=1.0f;
         shotdelay=0.0f;
-        recoil=3.0f;
-        maxrecoil=20.0f;
-        compensation=5;
+        recoil=0.5f;
+        maxrecoil=1.0f;
+        compensation=9;
         automatic=false;
         shotgun=false;
         Currentgun.text="Selected gun:Pistol(1)";
@@ -123,9 +131,9 @@ public class gun_values : MonoBehaviour
         range=1000.0f;
         reloadtime=2.5f;
         shotdelay=0f;
-        recoil=2.5f;
-        maxrecoil=15.0f;
-        compensation=3;
+        recoil=0.4f;
+        maxrecoil=0.8f;
+        compensation=9;
         automatic=true;
         shotgun=false;
         Currentgun.text="Selected gun:Assault rifle(2)";
@@ -142,9 +150,9 @@ public class gun_values : MonoBehaviour
         range=100.0f;
         reloadtime=2.7f;
         shotdelay=0f;
-        recoil=15f;
-        maxrecoil=20.0f;
-        compensation=10;
+        recoil=0.9f;
+        maxrecoil=5.0f;
+        compensation=12;
         automatic=false;
         shotgun=true;
         Currentgun.text="Selected gun:Shotgun(3)";
@@ -157,6 +165,13 @@ public class gun_values : MonoBehaviour
       gun=current_gun.GetComponent<gun>();
       gun.currentsound=gun.gameObject.GetComponent<AudioSource>();
       gun.currentsound.clip=currentaudio;
+
+      gun.currentfirerate=firerate-(powerup.totalheat/100);
+      gun.currentshotdelay=shotdelay/10-(powerup.totalheat/100);
+      gun.currentrecoil=recoil-(powerup.totalheat/150);
+      gun.currentcompensation=compensation+(powerup.totalheat/50);
+      gun.currentreload=reloadtime-(powerup.totalheat/80);
+
       StartCoroutine(gun.reload());
       yield return null;
     }

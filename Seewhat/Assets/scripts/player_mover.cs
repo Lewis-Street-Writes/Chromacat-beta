@@ -109,7 +109,7 @@ public class player_mover : MonoBehaviour
         velocityY+= gravity* Time.deltaTime;
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
-        Vector3 velocity= (transform.forward * currentDir.y + transform.right * currentDir.x) * (walkspeed + powerup.totalheat/50) + Vector3.up *velocityY;
+        Vector3 velocity= (transform.forward * currentDir.y + transform.right * currentDir.x) * (walkspeed + powerup.totalheat/100) + Vector3.up *velocityY;
         
         controller.Move(velocity * Time.deltaTime);
     }

@@ -17,6 +17,12 @@ public class gun : MonoBehaviour
     public GameObject bulletholeasset;
     public GameObject muzzleflashasset;
 
+    public float currentfirerate;
+    public float currentshotdelay;
+    public float currentrecoil;
+    public float currentcompensation;
+    public float currentreload;
+
     // Start is called before the first frame update
    
    void Start()
@@ -34,7 +40,7 @@ public class gun : MonoBehaviour
     if (gun_values.canshoot && gun_values.shooting && !gun_values.isReloading && gun_values.ammocount >0 && gun_values.shotgun) {
       gun_values.canshoot=false;
       yield return StartCoroutine(shotguncode());
-      Invoke("resetfire", gun_values.firerate-(powerup.totalheat/100));
+      Invoke("resetfire", currentfirerate);
     }
     if (gun_values.canshoot && gun_values.shooting && !gun_values.isReloading && gun_values.ammocount >0 && !gun_values.shotgun) {
       gun_values.canshoot=false;
@@ -42,13 +48,13 @@ public class gun : MonoBehaviour
 
       for (int i =0; i<gun_values.pershot;i++) {
       yield return StartCoroutine(shootfunc());
-      yield return new WaitForSeconds(gun_values.shotdelay/10-(powerup.totalheat/100));
+      yield return new WaitForSeconds(currentshotdelay);
       }
       }
       else {
         StartCoroutine(shootfunc());
       }
-      Invoke("resetfire", gun_values.firerate-(powerup.totalheat/100));
+      Invoke("resetfire", currentfirerate);
     }
     if (Input.GetKeyDown(KeyCode.R) && gun_values.ammocount<gun_values.magsize && gun_values.isReloading==false ) {
       StartCoroutine(reload());
@@ -56,7 +62,7 @@ public class gun : MonoBehaviour
     if (gun_values.shootValueY>0) {
     gun_values.shootValueY-=gun_values.slowfall;
     }
-    if (gun_values.shootValueY<0.5) {
+    if (gun_values.shootValueY<0) {
       gun_values.shootValueY=0;
     }
     yield return null;
@@ -69,8 +75,8 @@ public class gun : MonoBehaviour
       float spready=Random.Range(-gun_values.spread,gun_values.spread);
 
       if (gun_values.shootValueY<gun_values.maxrecoil) {
-      gun_values.shootValueY+=Mathf.Clamp((gun_values.recoil-(powerup.totalheat/150)),0,gun_values.recoil);
-      gun_values.slowfall=gun_values.shootValueY/(gun_values.compensation+(powerup.totalheat/50));
+      gun_values.shootValueY+=Mathf.Clamp(currentrecoil,0,gun_values.recoil);
+      gun_values.slowfall=gun_values.shootValueY/(currentcompensation);
       }
       Vector3 direction =player_mover.CylinderCamera.transform.forward + new Vector3(spreadx,spready,0);
       //Raycasting
@@ -83,10 +89,10 @@ public class gun : MonoBehaviour
         if (rayhit.collider.CompareTag("Enemy")) {
           rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(gun_values.damage);
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
-          rayhit.collider.GetComponentInParent<enemy_behaviour>().target=gameObject.transform.parent.gameObject;
+          rayhit.collider.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");;
           foreach(GameObject enem in GameObject.FindGameObjectsWithTag("Enemy")) {
                 enem.GetComponentInParent<enemy_behaviour>().ishostile=true;
-                 enem.GetComponentInParent<enemy_behaviour>().target=gameObject.transform.parent.gameObject;
+                 enem.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");;
             }
         }    
 
@@ -118,22 +124,26 @@ public class gun : MonoBehaviour
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
       if (Physics.Raycast(player_mover.CylinderCamera.transform.position, direction, out rayhit,gun_values.range,layerMask,  QueryTriggerInteraction.UseGlobal)) {       
-        if (rayhit.collider.CompareTag("Enemy")) {
+       if (rayhit.collider.CompareTag("Enemy")) {
           rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(gun_values.damage);
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
-          rayhit.collider.GetComponentInParent<enemy_behaviour>().target=gameObject.transform.parent.gameObject;
-        }       
-        else{
-          Instantiate(bulletholeasset, rayhit.point, Quaternion.Euler(0,180,0)); 
+          rayhit.collider.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");
+          foreach(GameObject enem in GameObject.FindGameObjectsWithTag("Enemy")) {
+                enem.GetComponentInParent<enemy_behaviour>().ishostile=true;
+                enem.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");
+            }
         }
+         else {
+                Instantiate(bulletholeasset, rayhit.point, Quaternion.Euler(0,180,0)); 
+        }   
       }
       }
       if (gun_values.shootValueY<gun_values.maxrecoil) {
-      gun_values.shootValueY+=Mathf.Clamp((gun_values.recoil-(powerup.totalheat/250)),0,gun_values.recoil);;
-      gun_values.slowfall=gun_values.shootValueY/(gun_values.compensation+(powerup.totalheat/50));
+      gun_values.shootValueY+=Mathf.Clamp(currentrecoil,0,gun_values.recoil);;
+      gun_values.slowfall=gun_values.shootValueY/(currentcompensation);
       }
       gun_values.ammocount--;
-      Instantiate(muzzleflashasset, gameObject.transform.position, Quaternion.Euler(0,180,0)); 
+      Instantiate(muzzleflashasset,gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
       currentsound.Play();
       gun_values.Currentammo.text="Ammo count:" + gun_values.ammocount;
       //Bullets      
@@ -149,7 +159,7 @@ public class gun : MonoBehaviour
     public IEnumerator reload()
     {
       gun_values.isReloading =true;
-      Invoke("ReloadFinished", gun_values.reloadtime-(powerup.totalheat/80));
+      Invoke("ReloadFinished",currentreload);
       gun_values.Currentammo.text="Ammo count: Reloading...";
       yield return null;
     }
