@@ -38,7 +38,9 @@ public class enemy_behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player_mover.ispaused==false) {
         enemyshoot();
+        }
     }
 
     public void TakeDamage(float damage) {

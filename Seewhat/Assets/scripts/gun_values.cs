@@ -75,9 +75,11 @@ public class gun_values : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
+      if (player_mover.ispaused==false) {
           if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
         StartCoroutine(guns());}
+      }
     }
     public IEnumerator guns() {
       //Uzi

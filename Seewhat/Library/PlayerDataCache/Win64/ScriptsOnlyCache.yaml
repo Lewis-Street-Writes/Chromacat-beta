@@ -1,10 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
-    Assembly-CSharp-Editor.dll:
-    - ReadmeEditor
     Assembly-CSharp.dll:
     - DecalDestroyer
-    - Readme
     - enemy_behaviour
     - gun
     - gun_values
@@ -19,6 +16,7 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
@@ -51,6 +49,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 89
       Script: {instanceID: 0}
     - Class: 104
@@ -77,6 +79,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 2588}
     - Class: 114
       Script: {instanceID: 2774}
+    - Class: 114
+      Script: {instanceID: 2860}
     - Class: 114
       Script: {instanceID: 3216}
     - Class: 114
@@ -162,7 +166,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 423a1b8a818c2bd16bd88b459b3f1a68
+      Hash: 526815916d27a9a0efc22fdd37f24b33
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: gun_values
@@ -222,7 +226,7 @@ ScriptsOnlyBuild:
     className: PlaymodeTestsController
   - hash:
       serializedVersion: 2
-      Hash: 56f83ef140cabb8734c6c97e4e9a0719
+      Hash: e6a0f88a2a2e4cf9cd40023cf810472d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: player_mover
@@ -426,7 +430,7 @@ ScriptsOnlyBuild:
     className: GunShoot
   - hash:
       serializedVersion: 2
-      Hash: ba886d76dcf517658fc5cda756b9623b
+      Hash: 17ef70b2dcdd6f29ae6d8cdd45bf2735
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: enemy_behaviour
@@ -570,7 +574,7 @@ ScriptsOnlyBuild:
     className: TMP_ScrollbarEventHandler
   - hash:
       serializedVersion: 2
-      Hash: 7562f390cfdafb87377826d30ab149ff
+      Hash: 0811ea76e024b3c9f6eb6de5cbe883a7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: gun
@@ -607,4 +611,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: D:/unity/playable folder/Seewhat.exe
+  playerPath: D:/Git-files/Chromacat-beta/playable folder/Seewhat.exe

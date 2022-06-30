@@ -89,10 +89,10 @@ public class gun : MonoBehaviour
         if (rayhit.collider.CompareTag("Enemy")) {
           rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(gun_values.damage);
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
-          rayhit.collider.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");;
+          rayhit.collider.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");
           foreach(GameObject enem in GameObject.FindGameObjectsWithTag("Enemy")) {
                 enem.GetComponentInParent<enemy_behaviour>().ishostile=true;
-                 enem.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");;
+                 enem.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");
             }
         }    
 

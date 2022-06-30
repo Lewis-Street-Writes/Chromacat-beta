@@ -12,7 +12,14 @@ public class player_mover : MonoBehaviour
     public int maxhealth=100;
     public int health;
     [SerializeField] public Text Currenthealth;
+     GameObject settingpause;
+    GameObject quitpause;
+     GameObject pausecover;
+     GameObject crosshair;
+
     public bool isalive;
+
+    public bool ispaused=false;
 
     float currentcamy=0.0f;
     float currentcamx=0.0f;
@@ -55,15 +62,23 @@ public class player_mover : MonoBehaviour
         gun=gun_values.gun;
         CylinderCube=gun_values.pistol.transform;
         controller = GetComponent<CharacterController>();
-        if(lockCursor) {
-            Cursor.lockState=CursorLockMode.Locked;
-            Cursor.visible=false;
-        }
+        cursorlock();
+        settingpause=GameObject.Find("settingpause");
+        quitpause=GameObject.Find("quitpause");
+        pausecover=GameObject.Find("pausecover");
+        crosshair=GameObject.Find("crosshair");
+        settingpause.SetActive(false);
+        quitpause.SetActive(false);
+        pausecover.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.P)) {
+            pausemenu();
+        }
+        if (ispaused==false) {
         if (health<0) {
         playerdeath();
         }
@@ -71,6 +86,7 @@ public class player_mover : MonoBehaviour
         StartCoroutine(MouseLook());
         Jump();
         StartCoroutine(gun.shoot());
+        }
     }
     public IEnumerator MouseLook() 
     {
@@ -125,9 +141,11 @@ public class player_mover : MonoBehaviour
          
             float timeInAir = 0.0f;
             do {
+                if (ispaused==false) {
                 float jumpForce= jumpFallOff.Evaluate(timeInAir);
                 controller.Move(Vector3.up* jumpPower * Time.deltaTime);
                 timeInAir+=Time.deltaTime;
+                }
                 yield return null;
             } while (!controller.isGrounded && controller.collisionFlags != CollisionFlags.Above);
             isJumping = false;
@@ -155,5 +173,38 @@ public class player_mover : MonoBehaviour
     void playerrespawn() {
     health=100;
     Currenthealth.text=health.ToString();
+    }
+    void pausemenu() {
+        if (ispaused) {
+            ispaused=false;
+            lockCursor=true;
+            cursorlock();
+            settingpause.SetActive(false);
+            quitpause.SetActive(false);
+            pausecover.SetActive(false);
+            crosshair.SetActive(true);
+        }
+        else {
+            ispaused=true;
+            lockCursor=false;
+            cursorlock();
+            settingpause.SetActive(true);
+            quitpause.SetActive(true);
+            pausecover.SetActive(true);
+            crosshair.SetActive(false);
+        }
+    }
+    void cursorlock() {
+        if(lockCursor) {
+            Cursor.lockState=CursorLockMode.Locked;
+            Cursor.visible=false;
+        }
+        else {
+            Cursor.lockState=CursorLockMode.None;
+            Cursor.visible=true;
+        }
+    }
+    public void quit() {
+        Application.Quit();
     }
 }
