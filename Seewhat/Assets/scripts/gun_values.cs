@@ -24,7 +24,7 @@ public class gun_values : MonoBehaviour
     public float slowfall=0.0f;
     
     public int damage,magsize,pershot, compensation;
-    public float firerate, spread,range,reloadtime,shotdelay,recoil, maxrecoil;
+    public float firerate, spread, currentspread, range,reloadtime,shotdelay, minspread,maxspread;
     public bool automatic,shotgun;
     public int ammocount, shotsfired;
 
@@ -54,21 +54,22 @@ public class gun_values : MonoBehaviour
         damage=2;
         pershot=1;
         firerate=0.1f;
-        spread=0;
         range=1000000.0f;
         reloadtime=1.3f;
         shotdelay=0.0f;
-        recoil=0.3f;
-        maxrecoil=0.6f;
+        spread=0.02f;
+        minspread=0.0f;
+        maxspread=0.1f;
         compensation=7;
         automatic=true;
         shotgun=false;
 
-        gun.currentfirerate=firerate-(powerup.totalheat/100);
-        gun.currentshotdelay=shotdelay/10-(powerup.totalheat/100);
-        gun.currentrecoil=recoil-(powerup.totalheat/150);
-        gun.currentcompensation=compensation+(powerup.totalheat/50);
-        gun.currentreload=reloadtime-(powerup.totalheat/80);
+        gun.currentfirerate=firerate;//-(powerup.totalheat/100);
+      gun.currentshotdelay=shotdelay/10-(powerup.totalheat/100);
+      gun.currentcompensation=compensation+(powerup.totalheat/50);
+      gun.currentreload=reloadtime-(powerup.totalheat/80);
+
+        currentspread=Mathf.Clamp(currentspread,minspread,maxspread);
 
         basenemy=GameObject.Find("simpleenemy");
         for (int i=-50;i<50;i+=10) {
@@ -94,12 +95,12 @@ public class gun_values : MonoBehaviour
         magsize=30;
         pershot=1;
         firerate=0.1f;
-        spread=0;
         range=1000.0f;
         reloadtime=1.3f;
         shotdelay=0.0f;
-        recoil=0.3f;
-        maxrecoil=0.6f;
+        spread=0.02f;
+        minspread=0.0f;
+        maxspread=0.1f;
         compensation=7;
         automatic=true;
         shotgun=false;
@@ -113,12 +114,12 @@ public class gun_values : MonoBehaviour
         magsize=10;
         pershot=1;
         firerate=0.2f;
-        spread=0;
         range=1000.0f;
         reloadtime=1.0f;
         shotdelay=0.0f;
-        recoil=0.5f;
-        maxrecoil=1.0f;
+        spread=0.02f;
+        minspread=0.0f;
+        maxspread=0.1f;
         compensation=9;
         automatic=false;
         shotgun=false;
@@ -132,12 +133,12 @@ public class gun_values : MonoBehaviour
         magsize=30;
         pershot=1;
         firerate=0.4f;
-        spread=0;
         range=1000.0f;
         reloadtime=2.5f;
         shotdelay=0f;
-        recoil=0.4f;
-        maxrecoil=0.8f;
+        spread=0.03f;
+        minspread=0f;
+        maxspread=0.15f;
         compensation=9;
         automatic=true;
         shotgun=false;
@@ -155,8 +156,9 @@ public class gun_values : MonoBehaviour
         range=100.0f;
         reloadtime=2.7f;
         shotdelay=0f;
-        recoil=0.9f;
-        maxrecoil=5.0f;
+        spread=1f;
+        minspread=0.2f;
+       maxspread =0.2f;
         compensation=12;
         automatic=false;
         shotgun=true;
@@ -171,11 +173,12 @@ public class gun_values : MonoBehaviour
       gun.currentsound=gun.gameObject.GetComponent<AudioSource>();
       gun.currentsound.clip=currentaudio;
 
-      gun.currentfirerate=firerate-(powerup.totalheat/100);
+      gun.currentfirerate=firerate;//-(powerup.totalheat/100);
       gun.currentshotdelay=shotdelay/10-(powerup.totalheat/100);
-      gun.currentrecoil=recoil-(powerup.totalheat/150);
       gun.currentcompensation=compensation+(powerup.totalheat/50);
       gun.currentreload=reloadtime-(powerup.totalheat/80);
+
+      currentspread=Mathf.Clamp(currentspread,minspread,maxspread);
 
       StartCoroutine(gun.reload());
       yield return null;

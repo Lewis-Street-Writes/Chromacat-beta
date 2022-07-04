@@ -10,8 +10,6 @@ ScriptsOnlyBuild:
     - titlescreen
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    Unity.Timeline.Editor.dll:
-    - TimelineProjectSettings
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -59,7 +57,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2860}
     - Class: 114
-      Script: {instanceID: 17260}
+      Script: {instanceID: 4028}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -136,7 +134,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3216}
     - Class: 114
-      Script: {instanceID: 4302}
+      Script: {instanceID: 4304}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -222,7 +220,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: f0ce02f67207d3e97c6c1d7c4d05cf47
+      Hash: e2bca4ae555843b811445245bc76d36a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: gun_values
@@ -618,6 +616,12 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: titlescreen
+  - hash:
+      serializedVersion: 2
       Hash: fd68d84f33fad85aac38f2739c0ee270
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -630,7 +634,7 @@ ScriptsOnlyBuild:
     className: TMP_ScrollbarEventHandler
   - hash:
       serializedVersion: 2
-      Hash: 0811ea76e024b3c9f6eb6de5cbe883a7
+      Hash: 88d7fd8123fc047f84673a32868a7407
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: gun
@@ -664,12 +668,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GunAim
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: titlescreen
   platform: 19
   scenePathNames:
   - Assets/Scenes/Titlescreen.unity

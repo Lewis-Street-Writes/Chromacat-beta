@@ -19,7 +19,6 @@ public class gun : MonoBehaviour
 
     public float currentfirerate;
     public float currentshotdelay;
-    public float currentrecoil;
     public float currentcompensation;
     public float currentreload;
 
@@ -59,11 +58,12 @@ public class gun : MonoBehaviour
     if (Input.GetKeyDown(gun_values.reload) && gun_values.ammocount<gun_values.magsize && gun_values.isReloading==false ) {
       StartCoroutine(reload());
     }
-    if (gun_values.shootValueY>0) {
-    gun_values.shootValueY-=gun_values.slowfall;
+    if (gun_values.currentspread>0) {
+    gun_values.currentspread-=gun_values.slowfall;
+    gun_values.currentspread=Mathf.Clamp(gun_values.currentspread,gun_values.minspread,gun_values.maxspread);
     }
-    if (gun_values.shootValueY<0) {
-      gun_values.shootValueY=0;
+    if (gun_values.currentspread<0) {
+      gun_values.currentspread=0;
     }
     yield return null;
     }
@@ -71,13 +71,13 @@ public class gun : MonoBehaviour
     public IEnumerator shootfunc() 
     {
       //bloom
-      float spreadx=Random.Range(-gun_values.spread,gun_values.spread);
-      float spready=Random.Range(-gun_values.spread,gun_values.spread);
+      float spreadx=Random.Range(-gun_values.currentspread,gun_values.currentspread);
+      float spready=Random.Range(-gun_values.currentspread,gun_values.currentspread);
 
-      if (gun_values.shootValueY<gun_values.maxrecoil) {
-      gun_values.shootValueY+=Mathf.Clamp(currentrecoil,0,gun_values.recoil);
-      gun_values.slowfall=gun_values.shootValueY/(currentcompensation);
-      }
+      
+      gun_values.currentspread=Mathf.Clamp(gun_values.currentspread+gun_values.spread,gun_values.minspread,gun_values.maxspread);
+      gun_values.slowfall=gun_values.currentspread/(gun_values.compensation);
+
       Vector3 direction =player_mover.CylinderCamera.transform.forward + new Vector3(spreadx,spready,0);
       //Raycasting
       int layerMask = 1 << 3;
@@ -113,8 +113,8 @@ public class gun : MonoBehaviour
     {
       for (int i=0;i<gun_values.pershot; i++) {
       //bloom
-      float spreadx=Random.Range(-gun_values.spread,gun_values.spread);
-      float spready=Random.Range(-gun_values.spread,gun_values.spread);
+      float spreadx=Random.Range(-gun_values.currentspread,gun_values.currentspread);
+      float spready=Random.Range(-gun_values.currentspread,gun_values.currentspread);
 
       Vector3 direction =player_mover.CylinderCamera.transform.forward + new Vector3(spreadx,spready,0);
       //Raycasting
@@ -138,10 +138,10 @@ public class gun : MonoBehaviour
         }   
       }
       }
-      if (gun_values.shootValueY<gun_values.maxrecoil) {
-      gun_values.shootValueY+=Mathf.Clamp(currentrecoil,0,gun_values.recoil);;
-      gun_values.slowfall=gun_values.shootValueY/(currentcompensation);
-      }
+      gun_values.currentspread=Mathf.Clamp(gun_values.currentspread+gun_values.spread,gun_values.minspread,gun_values.maxspread);
+      gun_values.slowfall=gun_values.currentspread/(currentcompensation);
+
+
       gun_values.ammocount--;
       Instantiate(muzzleflashasset,gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
       currentsound.Play();

@@ -109,19 +109,19 @@ public class player_mover : MonoBehaviour
         currentcamx+=currentMouseDelta.x * mouseSensitivity;
 
         transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivity);
-        crosshair1.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,15,0) + (new Vector3((6*gun_values.shootValueY),(6*gun_values.shootValueY),0)) ;
-        crosshair2.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,15,0) + (new Vector3(-(6*gun_values.shootValueY),(6*gun_values.shootValueY),0)) ;
-        crosshair3.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,-15,0) + (new Vector3((6*gun_values.shootValueY),-(6*gun_values.shootValueY),0)) ;
-        crosshair4.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,-15,0) + (new Vector3(-(6*gun_values.shootValueY),-(6*gun_values.shootValueY),0)) ;
+        crosshair1.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,15,0) + (new Vector3((200*gun_values.currentspread),(200*gun_values.currentspread),0)) ;
+        crosshair2.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,15,0) + (new Vector3(-(200*gun_values.currentspread),(200*gun_values.currentspread),0)) ;
+        crosshair3.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,-15,0) + (new Vector3((200*gun_values.currentspread),-(200*gun_values.currentspread),0)) ;
+        crosshair4.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,-15,0) + (new Vector3(-(200*gun_values.currentspread),-(200*gun_values.currentspread),0)) ;
 
         if(currentMouseDelta.x>= 0.05f * mouseSensitivity) {
-         CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,-5f);
+         CylinderCube.localEulerAngles=new Vector3(0,0,-5f);
         };
         if(currentMouseDelta.x<= -0.05f * mouseSensitivity) {
-         CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,5f);
+         CylinderCube.localEulerAngles=new Vector3(0,0,5f);
         };
         if(currentMouseDelta.x>= -0.05f * mouseSensitivity && currentMouseDelta.x<= 0.05f * mouseSensitivity ) {
-       CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,0);
+       CylinderCube.localEulerAngles=new Vector3(0,0,0);
         };
                 CylinderCamera.transform.localEulerAngles = new Vector3 (currentcamy,currentcamx,0);
         yield return null;
