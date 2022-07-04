@@ -28,6 +28,9 @@ public class gun_values : MonoBehaviour
     public bool automatic,shotgun;
     public int ammocount, shotsfired;
 
+    public KeyCode fire,altfire,reload,pause,gun_one,gun_two,gun_three,gun_four;
+    public KeyCode jumpKey;
+
     public bool shooting, canshoot,isReloading;
     // Start is called before the first frame update
     void Start()
@@ -77,7 +80,7 @@ public class gun_values : MonoBehaviour
     void Update()
     { 
       if (player_mover.ispaused==false) {
-          if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3)) {
+          if (Input.GetKeyDown(gun_one) || Input.GetKeyDown(gun_two) || Input.GetKeyDown(gun_three) || Input.GetKeyDown(gun_four)) {
         StartCoroutine(guns());}
       }
     }
@@ -86,7 +89,7 @@ public class gun_values : MonoBehaviour
         if (current_gun.activeSelf==true) {
             current_gun.SetActive(false);
         }
-      if (Input.GetKeyDown(KeyCode.Alpha0)) {
+      if (Input.GetKeyDown(gun_one)) {
         damage=2;
         magsize=30;
         pershot=1;
@@ -105,7 +108,7 @@ public class gun_values : MonoBehaviour
         currentaudio=Resources.Load<AudioClip>("Sounds/uzisound");
       }
       //Pistol
-      if (Input.GetKeyDown(KeyCode.Alpha1)) {
+      if (Input.GetKeyDown(gun_two)) {
         damage=5;
         magsize=10;
         pershot=1;
@@ -124,7 +127,7 @@ public class gun_values : MonoBehaviour
         currentaudio=Resources.Load<AudioClip>("Sounds/pistolsound");
       }
       //Assault rifle
-      if (Input.GetKeyDown(KeyCode.Alpha2)) {
+      if (Input.GetKeyDown(gun_three)) {
         damage=9;
         magsize=30;
         pershot=1;
@@ -143,7 +146,7 @@ public class gun_values : MonoBehaviour
         currentaudio=Resources.Load<AudioClip>("Sounds/uzisound");
       }
       //Shotgun
-      if (Input.GetKeyDown(KeyCode.Alpha3)) {
+      if (Input.GetKeyDown(gun_four)) {
         damage=4;
         magsize=6;
         pershot=5;

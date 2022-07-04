@@ -32,10 +32,10 @@ public class gun : MonoBehaviour
     public IEnumerator shoot() 
     {
       if (gun_values.automatic) {
-        gun_values.shooting=Input.GetKey(KeyCode.Mouse0);
+        gun_values.shooting=Input.GetKey(gun_values.fire);
       }
       else {
-        gun_values.shooting=Input.GetKeyDown(KeyCode.Mouse0);
+        gun_values.shooting=Input.GetKeyDown(gun_values.fire);
       }
     if (gun_values.canshoot && gun_values.shooting && !gun_values.isReloading && gun_values.ammocount >0 && gun_values.shotgun) {
       gun_values.canshoot=false;
@@ -56,7 +56,7 @@ public class gun : MonoBehaviour
       }
       Invoke("resetfire", currentfirerate);
     }
-    if (Input.GetKeyDown(KeyCode.R) && gun_values.ammocount<gun_values.magsize && gun_values.isReloading==false ) {
+    if (Input.GetKeyDown(gun_values.reload) && gun_values.ammocount<gun_values.magsize && gun_values.isReloading==false ) {
       StartCoroutine(reload());
     }
     if (gun_values.shootValueY>0) {

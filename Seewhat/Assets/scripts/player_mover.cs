@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class player_mover : MonoBehaviour
 {
@@ -15,12 +16,16 @@ public class player_mover : MonoBehaviour
      GameObject settingpause;
     GameObject quitpause;
      GameObject pausecover;
-     GameObject crosshair;
+     GameObject crosshair1;
+    GameObject crosshair2;
+    GameObject crosshair3;
+    GameObject crosshair4;
 
     public bool isalive;
 
     public bool ispaused=false;
 
+    Transform pseudocam;
     float currentcamy=0.0f;
     float currentcamx=0.0f;
 
@@ -40,7 +45,6 @@ public class player_mover : MonoBehaviour
 
     [SerializeField] AnimationCurve jumpFallOff;
     [SerializeField] float jumpPower=50.0f;
-    [SerializeField] KeyCode jumpKey;
     bool isJumping;
 
     Vector2 currentDir = Vector2.zero;
@@ -66,10 +70,16 @@ public class player_mover : MonoBehaviour
         settingpause=GameObject.Find("settingpause");
         quitpause=GameObject.Find("quitpause");
         pausecover=GameObject.Find("pausecover");
-        crosshair=GameObject.Find("crosshair");
+        crosshair1=GameObject.Find("crosshair1");
+        crosshair2=GameObject.Find("crosshair2");
+        crosshair3=GameObject.Find("crosshair3");
+        crosshair4=GameObject.Find("crosshair4");
+        pseudocam=gameObject.transform.GetChild(0);
+
         settingpause.SetActive(false);
         quitpause.SetActive(false);
         pausecover.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -98,8 +108,11 @@ public class player_mover : MonoBehaviour
         currentcamy=cameraPitch;
         currentcamx+=currentMouseDelta.x * mouseSensitivity;
 
-        CylinderCamera.transform.position = transform.position+ new Vector3(0,2.3f,0);
         transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivity);
+        crosshair1.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,15,0) + (new Vector3((6*gun_values.shootValueY),(6*gun_values.shootValueY),0)) ;
+        crosshair2.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,15,0) + (new Vector3(-(6*gun_values.shootValueY),(6*gun_values.shootValueY),0)) ;
+        crosshair3.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,-15,0) + (new Vector3((6*gun_values.shootValueY),-(6*gun_values.shootValueY),0)) ;
+        crosshair4.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,-15,0) + (new Vector3(-(6*gun_values.shootValueY),-(6*gun_values.shootValueY),0)) ;
 
         if(currentMouseDelta.x>= 0.05f * mouseSensitivity) {
          CylinderCube.localEulerAngles=new Vector3(-gun_values.shootValueY,0,-5f);
@@ -126,12 +139,13 @@ public class player_mover : MonoBehaviour
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
         Vector3 velocity= (transform.forward * currentDir.y + transform.right * currentDir.x) * (walkspeed + powerup.totalheat/100) + Vector3.up *velocityY;
-        
+
         controller.Move(velocity * Time.deltaTime);
+        CylinderCamera.position=pseudocam.position;
     }
     void Jump() 
     {
-    if(Input.GetKeyDown(jumpKey) && !isJumping){
+    if(Input.GetKeyDown(gun_values.jumpKey) && !isJumping){
             isJumping=true;
             StartCoroutine(Jumplist());
     }
@@ -182,7 +196,10 @@ public class player_mover : MonoBehaviour
             settingpause.SetActive(false);
             quitpause.SetActive(false);
             pausecover.SetActive(false);
-            crosshair.SetActive(true);
+            crosshair1.SetActive(true);
+            crosshair2.SetActive(true);
+            crosshair3.SetActive(true);
+            crosshair4.SetActive(true);
         }
         else {
             ispaused=true;
@@ -191,7 +208,10 @@ public class player_mover : MonoBehaviour
             settingpause.SetActive(true);
             quitpause.SetActive(true);
             pausecover.SetActive(true);
-            crosshair.SetActive(false);
+            crosshair1.SetActive(false);
+            crosshair2.SetActive(false);
+            crosshair3.SetActive(false);
+            crosshair4.SetActive(false);
         }
     }
     void cursorlock() {
@@ -205,6 +225,6 @@ public class player_mover : MonoBehaviour
         }
     }
     public void quit() {
-        Application.Quit();
+        SceneManager.LoadSceneAsync("Titlescreen");
     }
 }
