@@ -19,6 +19,9 @@ public class gun_values : MonoBehaviour
     public GameObject current_gun;
     public AudioClip currentaudio;
 
+    object[,] gun_stats;
+    int gun_number;
+
     public float shootValueY=0.0f;
     public float shootValueX=0.0f;
     public float slowfall=0.0f;
@@ -35,6 +38,12 @@ public class gun_values : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+      gun_stats=new object[,] {
+        //damage,magsize,pershot(burst+shotgun),firerate,range,reloadtime,shotdelay,spread,minspread,maxspread,compensation,automatic,shotgun,text,weapon type, sound
+      {6, 30, 1, 0.1f, 1000f, 1.3f, 0.0f, 0.02f, 0.0f, 0.1f,  7,  true,  false, "Selected gun:Uzi(0)",           pistol,   Resources.Load<AudioClip>("Sounds/uzisound")},
+      {25, 10, 1, 0.2f, 1000f, 1.0f, 0.0f, 0.02f, 0.0f, 0.1f,  9,  false, false, "Selected gun:Pistol(1)",        revolver, Resources.Load<AudioClip>("Sounds/pistolsound")},
+      {10, 30, 1, 0.4f, 1000f, 2.5f, 0.0f, 0.03f, 0.0f, 0.15f, 9,  true,  false, "Selected gun:Assault rifle(2)", revolver, Resources.Load<AudioClip>("Sounds/uzisound")},
+      {8, 6,  5, 1.5f, 1000f, 2.7f, 0.0f, 1f   , 0.2f, 0.2f,  12, false, true,  "Selected gun:Shotgun(3)",       revolver, Resources.Load<AudioClip>("Sounds/shotgunsound")}};
         pistol=GameObject.Find("pistol_model");
         revolver=GameObject.Find("revolver_model");
         if(revolver.activeSelf==true) {
@@ -42,35 +51,44 @@ public class gun_values : MonoBehaviour
         }
         current_gun=pistol;
         gun=current_gun.GetComponent<gun>();
-        ammocount=magsize;
+        gun_number=0;
         canshoot=true;
-        Currentgun.text="Selected gun:Uzi(0)";
-        gun.currentsound=gun.gameObject.GetComponent<AudioSource>();
-        gun.currentsound.clip=Resources.Load<AudioClip>("Sounds/uzisound");
-        magsize=30;
-        ammocount=magsize;
-        Currentammo.text="Ammo count:" + ammocount;
-        canshoot=true;
-        damage=2;
-        pershot=1;
-        firerate=0.1f;
-        range=1000000.0f;
-        reloadtime=1.3f;
-        shotdelay=0.0f;
-        spread=0.02f;
-        minspread=0.0f;
-        maxspread=0.1f;
-        compensation=7;
-        automatic=true;
-        shotgun=false;
 
-        gun.currentfirerate=firerate;//-(powerup.totalheat/100);
+
+        damage=(int) gun_stats[gun_number,0];
+        magsize=(int) gun_stats[gun_number,1];
+        ammocount=magsize;
+        pershot=(int) gun_stats[gun_number,2];
+        firerate=(float) gun_stats[gun_number,3];
+        range=(float) gun_stats[gun_number,4];
+        reloadtime=(float) gun_stats[gun_number,5];
+        shotdelay=(float) gun_stats[gun_number,6];
+        spread=(float) gun_stats[gun_number,7];
+        minspread=(float) gun_stats[gun_number,8];
+        maxspread=(float) gun_stats[gun_number,9];
+        compensation=(int) gun_stats[gun_number,10];
+        automatic=(bool) gun_stats[gun_number,11];
+        shotgun=(bool) gun_stats[gun_number,12];
+
+        Currentgun.text=(string) gun_stats[gun_number,13];
+        Currentammo.text="Ammo count:" + ammocount;
+
+        current_gun=(GameObject)gun_stats[gun_number,14];
+        currentaudio=(AudioClip) gun_stats[gun_number,15];
+
+      current_gun.SetActive(true);
+      player_mover.CylinderCube=current_gun.transform;
+      player_mover.gun=current_gun.GetComponent<gun>();
+      gun=current_gun.GetComponent<gun>();
+      gun.currentsound=gun.gameObject.GetComponent<AudioSource>();
+      gun.currentsound.clip=currentaudio;
+
+      gun.currentfirerate=firerate;//-(powerup.totalheat/100);
       gun.currentshotdelay=shotdelay/10-(powerup.totalheat/100);
       gun.currentcompensation=compensation+(powerup.totalheat/50);
       gun.currentreload=reloadtime-(powerup.totalheat/80);
 
-        currentspread=Mathf.Clamp(currentspread,minspread,maxspread);
-
+      currentspread=Mathf.Clamp(currentspread,minspread,maxspread);
         basenemy=GameObject.Find("simpleenemy");
         for (int i=-50;i<50;i+=10) {
         Instantiate(basenemy,new Vector3(i,7.18f,i), Quaternion.identity);
@@ -91,81 +109,37 @@ public class gun_values : MonoBehaviour
             current_gun.SetActive(false);
         }
       if (Input.GetKeyDown(gun_one)) {
-        damage=2;
-        magsize=30;
-        pershot=1;
-        firerate=0.1f;
-        range=1000.0f;
-        reloadtime=1.3f;
-        shotdelay=0.0f;
-        spread=0.02f;
-        minspread=0.0f;
-        maxspread=0.1f;
-        compensation=7;
-        automatic=true;
-        shotgun=false;
-        Currentgun.text="Selected gun:Uzi(0)";
-        current_gun=pistol;
-        currentaudio=Resources.Load<AudioClip>("Sounds/uzisound");
+        gun_number=0;
       }
       //Pistol
       if (Input.GetKeyDown(gun_two)) {
-        damage=5;
-        magsize=10;
-        pershot=1;
-        firerate=0.2f;
-        range=1000.0f;
-        reloadtime=1.0f;
-        shotdelay=0.0f;
-        spread=0.02f;
-        minspread=0.0f;
-        maxspread=0.1f;
-        compensation=9;
-        automatic=false;
-        shotgun=false;
-        Currentgun.text="Selected gun:Pistol(1)";
-        current_gun=revolver;
-        currentaudio=Resources.Load<AudioClip>("Sounds/pistolsound");
+        gun_number=1;
       }
       //Assault rifle
       if (Input.GetKeyDown(gun_three)) {
-        damage=9;
-        magsize=30;
-        pershot=1;
-        firerate=0.4f;
-        range=1000.0f;
-        reloadtime=2.5f;
-        shotdelay=0f;
-        spread=0.03f;
-        minspread=0f;
-        maxspread=0.15f;
-        compensation=9;
-        automatic=true;
-        shotgun=false;
-        Currentgun.text="Selected gun:Assault rifle(2)";
-        current_gun=revolver;
-        currentaudio=Resources.Load<AudioClip>("Sounds/uzisound");
+       gun_number=2;
       }
       //Shotgun
       if (Input.GetKeyDown(gun_four)) {
-        damage=4;
-        magsize=6;
-        pershot=5;
-        firerate=1.5f;
-        spread=0.1f;
-        range=100.0f;
-        reloadtime=2.7f;
-        shotdelay=0f;
-        spread=1f;
-        minspread=0.2f;
-       maxspread =0.2f;
-        compensation=12;
-        automatic=false;
-        shotgun=true;
-        Currentgun.text="Selected gun:Shotgun(3)";
-        current_gun=revolver;
-        currentaudio=Resources.Load<AudioClip>("Sounds/shotgunsound");
+       gun_number=3;
       }
+         damage=(int) gun_stats[gun_number,0];
+        magsize=(int) gun_stats[gun_number,1];
+        pershot=(int) gun_stats[gun_number,2];
+        firerate=(float) gun_stats[gun_number,3];
+        range=(float) gun_stats[gun_number,4];
+        reloadtime=(float) gun_stats[gun_number,5];
+        shotdelay=(float) gun_stats[gun_number,6];
+        spread=(float) gun_stats[gun_number,7];
+        minspread=(float) gun_stats[gun_number,8];
+        maxspread=(float) gun_stats[gun_number,9];
+        compensation=(int) gun_stats[gun_number,10];
+        automatic=(bool) gun_stats[gun_number,11];
+        shotgun=(bool) gun_stats[gun_number,12];
+        Currentgun.text=(string) gun_stats[gun_number,13];
+        current_gun=(GameObject)gun_stats[gun_number,14];
+        currentaudio=(AudioClip) gun_stats[gun_number,15];
+
       current_gun.SetActive(true);
       player_mover.CylinderCube=current_gun.transform;
       player_mover.gun=current_gun.GetComponent<gun>();

@@ -33,11 +33,13 @@ public class enemy_behaviour : MonoBehaviour
         enemyfirerate.Elapsed += updatetime;
         enemyfirerate.AutoReset = true;
         enemyfirerate.Enabled = true;
+        spawnLocation=new Vector3 (0,0,0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (player_mover.ispaused==false) {
         enemyshoot();
         }
@@ -46,9 +48,8 @@ public class enemy_behaviour : MonoBehaviour
     public void TakeDamage(float damage) {
         if (alive) {
             health-=damage;
-            currentData=gameObject;
+            gameObject.transform.GetChild(2).transform.localScale=new Vector3((0.8852488f/100)*health,0.1881703f,0.08728914f);
             //spawnLocation=currentData.transform.position;
-            spawnLocation= new Vector3(Random.Range(-47f,47f),7.18f,Random.Range(-30f,30f));
             Debug.Log(health);
             if (health<=0) {
                 health=0;
