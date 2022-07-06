@@ -11,6 +11,7 @@ public class gun_values : MonoBehaviour
     public gun gun;
     public player_mover player_mover;
     public powerup powerup;
+    public pause pause;
 
     GameObject basenemy;
 
@@ -31,7 +32,7 @@ public class gun_values : MonoBehaviour
     public bool automatic,shotgun;
     public int ammocount, shotsfired;
 
-    public KeyCode fire,altfire,reload,pause,gun_one,gun_two,gun_three,gun_four;
+    public KeyCode fire,altfire,reload,pausekey,gun_one,gun_two,gun_three,gun_four;
     public KeyCode jumpKey;
 
     public bool shooting, canshoot,isReloading;
@@ -98,7 +99,7 @@ public class gun_values : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-      if (player_mover.ispaused==false) {
+      if (pause.ispaused==false) {
           if (Input.GetKeyDown(gun_one) || Input.GetKeyDown(gun_two) || Input.GetKeyDown(gun_three) || Input.GetKeyDown(gun_four)) {
         StartCoroutine(guns());}
       }

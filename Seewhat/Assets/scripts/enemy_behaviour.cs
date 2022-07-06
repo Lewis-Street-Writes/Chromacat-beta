@@ -5,6 +5,8 @@ using UnityEngine;
 public class enemy_behaviour : MonoBehaviour
 {
     public player_mover player_mover;
+    public pause pause;
+    
     GameObject player;
     float health;
     bool alive;
@@ -39,8 +41,15 @@ public class enemy_behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 dir = gameObject.transform.position - player.transform.position;
+        //turn into quaternion       
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        //interpolates between current and new rotation
+        Vector3 rotation = Quaternion.Lerp(gameObject.transform.GetChild(1).transform.rotation, lookRotation, Time.deltaTime * 5).eulerAngles;
+        //apply rotate
+        gameObject.transform.GetChild(1).transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
         
-        if (player_mover.ispaused==false) {
+        if (pause.ispaused==false) {
         enemyshoot();
         }
     }
@@ -48,7 +57,7 @@ public class enemy_behaviour : MonoBehaviour
     public void TakeDamage(float damage) {
         if (alive) {
             health-=damage;
-            gameObject.transform.GetChild(2).transform.localScale=new Vector3((0.8852488f/100)*health,0.1881703f,0.08728914f);
+            gameObject.transform.GetChild(1).transform.GetChild(0).transform.localScale=new Vector3(0.01f*health,1,1);
             //spawnLocation=currentData.transform.position;
             Debug.Log(health);
             if (health<=0) {

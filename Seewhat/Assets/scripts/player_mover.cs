@@ -9,21 +9,19 @@ public class player_mover : MonoBehaviour
     public gun gun;
     public gun_values gun_values;
     public powerup powerup;
+    public pause pause;
 
     public int maxhealth=100;
     public int health;
     [SerializeField] public Text Currenthealth;
-     GameObject settingpause;
-    GameObject quitpause;
-     GameObject pausecover;
-     GameObject crosshair1;
+
+
+    GameObject crosshair1;
     GameObject crosshair2;
     GameObject crosshair3;
     GameObject crosshair4;
 
     public bool isalive;
-
-    public bool ispaused=false;
 
     Transform pseudocam;
     float currentcamy=0.0f;
@@ -37,7 +35,7 @@ public class player_mover : MonoBehaviour
     [SerializeField][Range(0.0f,0.5f)] float moveSmoothTime=0.3f;
     [SerializeField][Range(0.0f,0.5f)] float mouseSmoothTime=0.03f;
 
-    [SerializeField] bool lockCursor= true;
+    public bool lockCursor= true;
 
     public float cameraPitch = 0.0f;
     float velocityY=0.0f;
@@ -67,28 +65,23 @@ public class player_mover : MonoBehaviour
         CylinderCube=gun_values.pistol.transform;
         controller = GetComponent<CharacterController>();
         cursorlock();
-        settingpause=GameObject.Find("settingpause");
-        quitpause=GameObject.Find("quitpause");
-        pausecover=GameObject.Find("pausecover");
+
+
         crosshair1=GameObject.Find("crosshair1");
         crosshair2=GameObject.Find("crosshair2");
         crosshair3=GameObject.Find("crosshair3");
         crosshair4=GameObject.Find("crosshair4");
         pseudocam=gameObject.transform.GetChild(0);
 
-        settingpause.SetActive(false);
-        quitpause.SetActive(false);
-        pausecover.SetActive(false);
+        
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P)) {
-            pausemenu();
-        }
-        if (ispaused==false) {
+        if (pause.ispaused==false) {
         if (health<0) {
         playerdeath();
         }
@@ -155,7 +148,7 @@ public class player_mover : MonoBehaviour
          
             float timeInAir = 0.0f;
             do {
-                if (ispaused==false) {
+                if (pause.ispaused==false) {
                 float jumpForce= jumpFallOff.Evaluate(timeInAir);
                 controller.Move(Vector3.up* jumpPower * Time.deltaTime);
                 timeInAir+=Time.deltaTime;
@@ -188,32 +181,7 @@ public class player_mover : MonoBehaviour
     health=100;
     Currenthealth.text=health.ToString();
     }
-    void pausemenu() {
-        if (ispaused) {
-            ispaused=false;
-            lockCursor=true;
-            cursorlock();
-            settingpause.SetActive(false);
-            quitpause.SetActive(false);
-            pausecover.SetActive(false);
-            crosshair1.SetActive(true);
-            crosshair2.SetActive(true);
-            crosshair3.SetActive(true);
-            crosshair4.SetActive(true);
-        }
-        else {
-            ispaused=true;
-            lockCursor=false;
-            cursorlock();
-            settingpause.SetActive(true);
-            quitpause.SetActive(true);
-            pausecover.SetActive(true);
-            crosshair1.SetActive(false);
-            crosshair2.SetActive(false);
-            crosshair3.SetActive(false);
-            crosshair4.SetActive(false);
-        }
-    }
+    
     void cursorlock() {
         if(lockCursor) {
             Cursor.lockState=CursorLockMode.Locked;
@@ -223,8 +191,5 @@ public class player_mover : MonoBehaviour
             Cursor.lockState=CursorLockMode.None;
             Cursor.visible=true;
         }
-    }
-    public void quit() {
-        SceneManager.LoadSceneAsync("Titlescreen");
     }
 }

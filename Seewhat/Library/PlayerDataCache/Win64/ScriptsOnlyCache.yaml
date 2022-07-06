@@ -1,10 +1,14 @@
 ScriptsOnlyBuild:
   usedScripts:
+    Assembly-CSharp-Editor.dll:
+    - ReadmeEditor
     Assembly-CSharp.dll:
     - DecalDestroyer
+    - Readme
     - enemy_behaviour
     - gun
     - gun_values
+    - pause
     - player_mover
     - powerup
     - titlescreen
@@ -19,9 +23,14 @@ ScriptsOnlyBuild:
     - UnityEngine.EventSystems.StandaloneInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
+    - UnityEngine.UI.Dropdown
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Mask
+    - UnityEngine.UI.ScrollRect
+    - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Text
+    - UnityEngine.UI.Toggle
   sceneClasses:
     Assets/Scenes/Titlescreen.unity:
     - Class: 1
@@ -112,6 +121,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1482}
     - Class: 114
+      Script: {instanceID: 1576}
+    - Class: 114
       Script: {instanceID: 1650}
     - Class: 114
       Script: {instanceID: 1968}
@@ -130,11 +141,21 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2774}
     - Class: 114
+      Script: {instanceID: 2784}
+    - Class: 114
       Script: {instanceID: 2860}
     - Class: 114
       Script: {instanceID: 3216}
     - Class: 114
+      Script: {instanceID: 3430}
+    - Class: 114
+      Script: {instanceID: 3582}
+    - Class: 114
+      Script: {instanceID: 3716}
+    - Class: 114
       Script: {instanceID: 4304}
+    - Class: 114
+      Script: {instanceID: 4396}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -220,7 +241,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: e2bca4ae555843b811445245bc76d36a
+      Hash: b928df5283253e05f3e987b22c6e3ba0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: gun_values
@@ -280,7 +301,7 @@ ScriptsOnlyBuild:
     className: PlaymodeTestsController
   - hash:
       serializedVersion: 2
-      Hash: 2412dbbd2e5316a2dc6cf7c2ddeca288
+      Hash: 6d62a11e4f44c4bca1f7b32004f258e8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: player_mover
@@ -484,7 +505,7 @@ ScriptsOnlyBuild:
     className: GunShoot
   - hash:
       serializedVersion: 2
-      Hash: 17ef70b2dcdd6f29ae6d8cdd45bf2735
+      Hash: 1f8c20c0fab8269fa0a52d3ffa8de311
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: enemy_behaviour
@@ -650,6 +671,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ActivationPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 79c5ae051a2acb595523c3d5a9bdee54
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: pause
   - hash:
       serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
