@@ -961,15 +961,7 @@ MonoBehaviour:
   shotgun: 0
   ammocount: 0
   shotsfired: 0
-  fire: 323
-  altfire: 324
-  reload: 114
-  pausekey: 112
-  gun_one: 48
-  gun_two: 49
-  gun_three: 50
-  gun_four: 51
-  jumpKey: 32
+  keylabels: 430100004401000072000000700000003000000031000000320000003300000020000000
   shooting: 0
   canshoot: 0
   isReloading: 0

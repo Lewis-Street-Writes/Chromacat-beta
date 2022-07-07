@@ -138,7 +138,7 @@ public class player_mover : MonoBehaviour
     }
     void Jump() 
     {
-    if(Input.GetKeyDown(gun_values.jumpKey) && !isJumping){
+    if(Input.GetKeyDown(gun_values.keylabels[8]) && !isJumping){
             isJumping=true;
             StartCoroutine(Jumplist());
     }

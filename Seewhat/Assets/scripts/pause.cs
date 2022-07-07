@@ -27,8 +27,7 @@ public class pause : MonoBehaviour
         "LeftShift","Mouse0","Mouse1","Alpha0","Alpha1","Alpha2","Alpha3","Alpha4","Alpha5","Alpha6","Alpha7","Alpha8","Alpha9"
         ,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
 
-        KeyCode[] keylabels=new KeyCode[]{gun_values.fire,gun_values.altfire,gun_values.reload,gun_values.pausekey,
-        gun_values.gun_one,gun_values.gun_two,gun_values.gun_three,gun_values.gun_four,gun_values.jumpKey};
+        
         string[] keyident= new string[] {"Fire","Alternate fire","Reload","Pause","Uzi","Pistol","Assault rifle","Shotgun","Jump"};
 
         for (int i=0;i<8;i++) {
@@ -44,8 +43,10 @@ public class pause : MonoBehaviour
         {
             dropcomponent.options.Add(new Dropdown.OptionData() {text=key});
         }
-        dropcomponent.value = dropcomponent.options.FindIndex(option => option.text ==  keylabels[i].ToString());
-        dropcomponent.onValueChanged.AddListener(delegate {Keyitemchange(dropcomponent,keylabels[i]);});
+        dropcomponent.value = dropcomponent.options.FindIndex(option => option.text ==  gun_values.keylabels[i].ToString());
+        int tempnum=i;
+        Dropdown droptemp=dropcomponent;
+        dropcomponent.onValueChanged.AddListener(delegate {Keyitemchange(droptemp,tempnum);});
         }
         
 
@@ -60,7 +61,7 @@ public class pause : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     if(Input.GetKeyDown(gun_values.pausekey)) {
+     if(Input.GetKeyDown(gun_values.keylabels[3])) {
             pausemenu();
         }   
     }
@@ -72,6 +73,7 @@ public class pause : MonoBehaviour
             pause1.SetActive(false);
             pausecover.SetActive(false);
             playerUI.SetActive(true);
+            pause2.SetActive(false);
         }
         else {
             ispaused=true;
@@ -104,8 +106,19 @@ public class pause : MonoBehaviour
         pause1.SetActive(true);
     }
     //only changes fire key currently
-    void Keyitemchange(Dropdown dropdown,KeyCode key ) {
-        Debug.Log(dropdown.options[dropdown.value].text);
-        key= (KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
+    void Keyitemchange(Dropdown dropdown,int key) {
+        var dropdownlist=GameObject.FindGameObjectsWithTag("SettingDropdown");
+        foreach (GameObject drop in dropdownlist)
+        {
+            if (drop.GetComponent<RectTransform>().position==dropdown.GetComponent<RectTransform>().position) {
+            }
+            else {
+                if (drop.transform.GetComponent<Dropdown>().options[drop.transform.GetComponent<Dropdown>().value].text==dropdown.options[dropdown.value].text) {
+                    dropdown.value = dropdown.options.FindIndex(option => option.text ==  gun_values.keylabels[key].ToString());
+                   return;
+                }
+            }
+        }
+        gun_values.keylabels[key]= (KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
     } 
 }

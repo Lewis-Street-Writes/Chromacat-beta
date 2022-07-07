@@ -32,8 +32,7 @@ public class gun_values : MonoBehaviour
     public bool automatic,shotgun;
     public int ammocount, shotsfired;
 
-    public KeyCode fire,altfire,reload,pausekey,gun_one,gun_two,gun_three,gun_four;
-    public KeyCode jumpKey;
+    public KeyCode[] keylabels=new KeyCode[]{};
 
     public bool shooting, canshoot,isReloading;
     // Start is called before the first frame update
@@ -100,7 +99,7 @@ public class gun_values : MonoBehaviour
     void Update()
     { 
       if (pause.ispaused==false) {
-          if (Input.GetKeyDown(gun_one) || Input.GetKeyDown(gun_two) || Input.GetKeyDown(gun_three) || Input.GetKeyDown(gun_four)) {
+          if (Input.GetKeyDown(keylabels[4]) || Input.GetKeyDown(keylabels[5]) || Input.GetKeyDown(keylabels[6]) || Input.GetKey(keylabels[7])) {
         StartCoroutine(guns());}
       }
     }
@@ -109,19 +108,19 @@ public class gun_values : MonoBehaviour
         if (current_gun.activeSelf==true) {
             current_gun.SetActive(false);
         }
-      if (Input.GetKeyDown(gun_one)) {
+      if (Input.GetKeyDown(keylabels[4])) {
         gun_number=0;
       }
       //Pistol
-      if (Input.GetKeyDown(gun_two)) {
+      if (Input.GetKeyDown(keylabels[5])) {
         gun_number=1;
       }
       //Assault rifle
-      if (Input.GetKeyDown(gun_three)) {
+      if (Input.GetKeyDown(keylabels[6])) {
        gun_number=2;
       }
       //Shotgun
-      if (Input.GetKeyDown(gun_four)) {
+      if (Input.GetKeyDown(keylabels[7])) {
        gun_number=3;
       }
          damage=(int) gun_stats[gun_number,0];
