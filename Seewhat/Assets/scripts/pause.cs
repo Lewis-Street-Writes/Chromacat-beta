@@ -9,6 +9,9 @@ public class pause : MonoBehaviour
     public player_mover player_mover;
     public gun_values gun_values;
 
+    [SerializeField] GameObject dropdownexample;
+     [SerializeField] GameObject textexample;
+
      GameObject playerUI;
     GameObject pause1;
     GameObject pause2;
@@ -23,14 +26,28 @@ public class pause : MonoBehaviour
         string[] keycodes= new string[] {"Backspace","Delete","Tab","Return","Escape","Space","UpArrow","DownArrow","RightArrow","LeftArrow",
         "LeftShift","Mouse0","Mouse1","Alpha0","Alpha1","Alpha2","Alpha3","Alpha4","Alpha5","Alpha6","Alpha7","Alpha8","Alpha9"
         ,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-        dropdown1=GameObject.Find("dropdown1").transform.GetComponent<Dropdown>();
-        dropdown1.options.Clear();
-        List<string> keyoptions=new List<string>();
+
+        KeyCode[] keylabels=new KeyCode[]{gun_values.fire,gun_values.altfire,gun_values.reload,gun_values.pausekey,
+        gun_values.gun_one,gun_values.gun_two,gun_values.gun_three,gun_values.gun_four,gun_values.jumpKey};
+        string[] keyident= new string[] {"Fire","Alternate fire","Reload","Pause","Uzi","Pistol","Assault rifle","Shotgun","Jump"};
+
+        for (int i=0;i<8;i++) {
+        GameObject currentdropdown=Instantiate(dropdownexample, new Vector3(100,180-(i*40),0), Quaternion.Euler(0,0,0));
+        currentdropdown.transform.SetParent(GameObject.Find("pause2").transform,false);
+        Dropdown dropcomponent=currentdropdown.transform.GetComponent<Dropdown>();
+        dropcomponent.options.Clear();
+
+        GameObject currenttextfield=Instantiate(textexample, new Vector3(-100,180-(i*40),0), Quaternion.Euler(0,0,0));
+        currenttextfield.transform.SetParent(GameObject.Find("pause2").transform,false);
+        currenttextfield.GetComponent<Text>().text=keyident[i];
         foreach (string key in keycodes) 
         {
-            dropdown1.options.Add(new Dropdown.OptionData() {text=key});
+            dropcomponent.options.Add(new Dropdown.OptionData() {text=key});
         }
-        dropdown1.onValueChanged.AddListener(delegate {Keyitemchange(dropdown1);});
+        dropcomponent.value = dropcomponent.options.FindIndex(option => option.text ==  keylabels[i].ToString());
+        dropcomponent.onValueChanged.AddListener(delegate {Keyitemchange(dropcomponent,keylabels[i]);});
+        }
+        
 
         pause1=GameObject.Find("pause1");
         pause2=GameObject.Find("pause2");
@@ -87,8 +104,8 @@ public class pause : MonoBehaviour
         pause1.SetActive(true);
     }
     //only changes fire key currently
-    void Keyitemchange(Dropdown dropdown) {
+    void Keyitemchange(Dropdown dropdown,KeyCode key ) {
         Debug.Log(dropdown.options[dropdown.value].text);
-        gun_values.fire= (KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
+        key= (KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
     } 
 }

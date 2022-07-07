@@ -1,10 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
-    Assembly-CSharp-Editor.dll:
-    - ReadmeEditor
     Assembly-CSharp.dll:
     - DecalDestroyer
-    - Readme
     - enemy_behaviour
     - gun
     - gun_values
@@ -673,7 +670,7 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 79c5ae051a2acb595523c3d5a9bdee54
+      Hash: 17da30cd77a02f5e3a0d0c9fb27f5350
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: pause
