@@ -32,7 +32,8 @@ public class gun_values : MonoBehaviour
     public bool automatic,shotgun;
     public int ammocount, shotsfired;
 
-    public KeyCode[] keylabels=new KeyCode[]{};
+    //                                       fire,          altfire,        reload,     pause,    gun one,        gun two,        gun three,       gun four,       jump
+    public KeyCode[] keylabels=new KeyCode[]{KeyCode.Mouse0, KeyCode.Mouse1, KeyCode.R, KeyCode.P, KeyCode.Alpha0, KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Space};
 
     public bool shooting, canshoot,isReloading;
     // Start is called before the first frame update
@@ -41,7 +42,7 @@ public class gun_values : MonoBehaviour
       gun_stats=new object[,] {
         //damage,magsize,pershot(burst+shotgun),firerate,range,reloadtime,shotdelay,spread,minspread,maxspread,compensation,automatic,shotgun,text,weapon type, sound
       {6, 30, 1, 0.1f, 1000f, 1.3f, 0.0f, 0.02f, 0.0f, 0.1f,  7,  true,  false, "Selected gun:Uzi(0)",           pistol,   Resources.Load<AudioClip>("Sounds/uzisound")},
-      {25, 10, 1, 0.2f, 1000f, 1.0f, 0.0f, 0.02f, 0.0f, 0.1f,  9,  false, false, "Selected gun:Pistol(1)",        revolver, Resources.Load<AudioClip>("Sounds/pistolsound")},
+      {25, 10, 1, 0.7f, 1000f, 1.0f, 0.0f, 0.02f, 0.0f, 0.1f,  9,  false, false, "Selected gun:Pistol(1)",        revolver, Resources.Load<AudioClip>("Sounds/pistolsound")},
       {10, 30, 1, 0.4f, 1000f, 2.5f, 0.0f, 0.03f, 0.0f, 0.15f, 9,  true,  false, "Selected gun:Assault rifle(2)", revolver, Resources.Load<AudioClip>("Sounds/uzisound")},
       {8, 6,  5, 1.5f, 1000f, 2.7f, 0.0f, 1f   , 0.2f, 0.2f,  12, false, true,  "Selected gun:Shotgun(3)",       revolver, Resources.Load<AudioClip>("Sounds/shotgunsound")}};
         pistol=GameObject.Find("pistol_model");

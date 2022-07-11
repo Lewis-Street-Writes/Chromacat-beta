@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class pause : MonoBehaviour
 {
@@ -22,33 +24,9 @@ public class pause : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LoadFile();
         playerUI=GameObject.Find("playerUI");
-        string[] keycodes= new string[] {"Backspace","Delete","Tab","Return","Escape","Space","UpArrow","DownArrow","RightArrow","LeftArrow",
-        "LeftShift","Mouse0","Mouse1","Alpha0","Alpha1","Alpha2","Alpha3","Alpha4","Alpha5","Alpha6","Alpha7","Alpha8","Alpha9"
-        ,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-
-        
-        string[] keyident= new string[] {"Fire","Alternate fire","Reload","Pause","Uzi","Pistol","Assault rifle","Shotgun","Jump"};
-
-        for (int i=0;i<8;i++) {
-        GameObject currentdropdown=Instantiate(dropdownexample, new Vector3(100,180-(i*40),0), Quaternion.Euler(0,0,0));
-        currentdropdown.transform.SetParent(GameObject.Find("pause2").transform,false);
-        Dropdown dropcomponent=currentdropdown.transform.GetComponent<Dropdown>();
-        dropcomponent.options.Clear();
-
-        GameObject currenttextfield=Instantiate(textexample, new Vector3(-100,180-(i*40),0), Quaternion.Euler(0,0,0));
-        currenttextfield.transform.SetParent(GameObject.Find("pause2").transform,false);
-        currenttextfield.GetComponent<Text>().text=keyident[i];
-        foreach (string key in keycodes) 
-        {
-            dropcomponent.options.Add(new Dropdown.OptionData() {text=key});
-        }
-        dropcomponent.value = dropcomponent.options.FindIndex(option => option.text ==  gun_values.keylabels[i].ToString());
-        int tempnum=i;
-        Dropdown droptemp=dropcomponent;
-        dropcomponent.onValueChanged.AddListener(delegate {Keyitemchange(droptemp,tempnum);});
-        }
-        
+            droploads();
 
         pause1=GameObject.Find("pause1");
         pause2=GameObject.Find("pause2");
@@ -120,5 +98,59 @@ public class pause : MonoBehaviour
             }
         }
         gun_values.keylabels[key]= (KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
+          string destination = "Assets/scripts/save.dat";
+         FileStream file;
+ 
+         if(File.Exists(destination)) file = File.OpenWrite(destination);
+         else file = File.Create(destination);
+ 
+         KeyCode[] data=gun_values.keylabels;
+         data[key]=(KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
+         BinaryFormatter bf = new BinaryFormatter();
+         bf.Serialize(file, data);
+         file.Close();
     } 
+    public void LoadFile()
+     {
+         string destination ="Assets/scripts/save.dat";
+         FileStream file;
+ 
+         if(File.Exists(destination)) file = File.OpenRead(destination);
+         else
+         {
+             Debug.LogError("File not found");
+             return;
+         }
+        BinaryFormatter bf = new BinaryFormatter();
+        KeyCode[] data = (KeyCode[]) bf.Deserialize(file);
+         file.Close();
+         gun_values.keylabels=data;
+     }
+     void droploads() {
+        string[] keycodes= new string[] {"Backspace","Delete","Tab","Return","Escape","Space","UpArrow","DownArrow","RightArrow","LeftArrow",
+        "LeftShift","Mouse0","Mouse1","Alpha0","Alpha1","Alpha2","Alpha3","Alpha4","Alpha5","Alpha6","Alpha7","Alpha8","Alpha9"
+        ,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+
+        
+        string[] keyident= new string[] {"Fire","Alternate fire","Reload","Pause","Uzi","Pistol","Assault rifle","Shotgun","Jump"};
+
+        for (int i=0;i<8;i++) {
+        GameObject currentdropdown=Instantiate(dropdownexample, new Vector3(100,180-(i*40),0), Quaternion.Euler(0,0,0));
+        currentdropdown.transform.SetParent(GameObject.Find("pause2").transform,false);
+        Dropdown dropcomponent=currentdropdown.transform.GetComponent<Dropdown>();
+        dropcomponent.options.Clear();
+
+        GameObject currenttextfield=Instantiate(textexample, new Vector3(-100,180-(i*40),0), Quaternion.Euler(0,0,0));
+        currenttextfield.transform.SetParent(GameObject.Find("pause2").transform,false);
+        currenttextfield.GetComponent<Text>().text=keyident[i];
+        foreach (string key in keycodes) 
+        {
+            dropcomponent.options.Add(new Dropdown.OptionData() {text=key});
+        }
+        dropcomponent.value = dropcomponent.options.FindIndex(option => option.text ==  gun_values.keylabels[i].ToString());
+        int tempnum=i;
+        Dropdown droptemp=dropcomponent;
+        dropcomponent.onValueChanged.AddListener(delegate {Keyitemchange(droptemp,tempnum);});
+        }
+     }
 }

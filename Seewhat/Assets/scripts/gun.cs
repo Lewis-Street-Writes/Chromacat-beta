@@ -34,7 +34,7 @@ public class gun : MonoBehaviour
         gun_values.shooting=Input.GetKey(gun_values.keylabels[0]);
       }
       else {
-        gun_values.shooting=Input.GetKeyDown(gun_values.keylabels[1]);
+        gun_values.shooting=Input.GetKeyDown(gun_values.keylabels[0]);
       }
     if (gun_values.canshoot && gun_values.shooting && !gun_values.isReloading && gun_values.ammocount >0 && gun_values.shotgun) {
       gun_values.canshoot=false;

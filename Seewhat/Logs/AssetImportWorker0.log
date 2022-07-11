@@ -15,11 +15,11 @@ D:/Git-files/Chromacat-beta/Seewhat
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-59587
+62197
 Successfully changed project path to: D:/Git-files/Chromacat-beta/Seewhat
 D:/Git-files/Chromacat-beta/Seewhat
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 1308.66 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 327.89 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.3.32f1 (12f8b0834f07)
 [Subsystems] Discovering subsystems at path D:/unity/Unity 2020.3.32f1/Editor/Data/Resources/UnitySubsystems
@@ -35,42 +35,42 @@ Initialize mono
 Mono path[0] = 'D:/unity/Unity 2020.3.32f1/Editor/Data/Managed'
 Mono path[1] = 'D:/unity/Unity 2020.3.32f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'D:/unity/Unity 2020.3.32f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56900
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56032
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: D:/unity/Unity 2020.3.32f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.055733 seconds.
+Registered in 0.006467 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1794.16 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 181.23 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  9.783 seconds
+- Completed reload, in  6.166 seconds
 Domain Reload Profiling:
-	ReloadAssembly (9785ms)
-		BeginReloadAssembly (1898ms)
+	ReloadAssembly (6167ms)
+		BeginReloadAssembly (1070ms)
 			ExecutionOrderSort (0ms)
 			DisableScriptedObjects (0ms)
 			BackupInstance (0ms)
 			ReleaseScriptingObjects (0ms)
-			CreateAndSetChildDomain (4ms)
-		EndReloadAssembly (6812ms)
-			LoadAssemblies (1859ms)
-			RebuildTransferFunctionScriptingTraits (6ms)
-			SetupTypeCache (2165ms)
-			ReleaseScriptCaches (0ms)
-			RebuildScriptCaches (242ms)
-			SetupLoadedEditorAssemblies (3342ms)
+			CreateAndSetChildDomain (5ms)
+		EndReloadAssembly (4375ms)
+			LoadAssemblies (1066ms)
+			RebuildTransferFunctionScriptingTraits (1ms)
+			SetupTypeCache (1748ms)
+			ReleaseScriptCaches (2ms)
+			RebuildScriptCaches (212ms)
+			SetupLoadedEditorAssemblies (1154ms)
 				LogAssemblyErrors (0ms)
-				InitializePlatformSupportModulesInManaged (47ms)
+				InitializePlatformSupportModulesInManaged (33ms)
 				SetLoadedEditorAssemblies (1ms)
-				RefreshPlugins (1794ms)
-				BeforeProcessingInitializeOnLoad (228ms)
-				ProcessInitializeOnLoadAttributes (1023ms)
-				ProcessInitializeOnLoadMethodAttributes (247ms)
+				RefreshPlugins (181ms)
+				BeforeProcessingInitializeOnLoad (40ms)
+				ProcessInitializeOnLoadAttributes (670ms)
+				ProcessInitializeOnLoadMethodAttributes (228ms)
 				AfterProcessingInitializeOnLoad (0ms)
 				EditorAssembliesLoaded (1ms)
 			ExecutionOrderSort2 (0ms)
 			AwakeInstancesAfterBackupRestoration (0ms)
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.194444 seconds.
+Registered in 0.015852 seconds.
