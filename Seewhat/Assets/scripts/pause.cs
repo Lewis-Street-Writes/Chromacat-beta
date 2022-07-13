@@ -75,6 +75,9 @@ public class pause : MonoBehaviour
     public void quit() {
         SceneManager.LoadSceneAsync("Titlescreen");
     }
+    public void map() {
+        SceneManager.LoadSceneAsync("map");
+    }
     public void settingsmenu() {
         pause2.SetActive(true);
         pause1.SetActive(false);
@@ -98,7 +101,7 @@ public class pause : MonoBehaviour
             }
         }
         gun_values.keylabels[key]= (KeyCode) System.Enum.Parse(typeof(KeyCode), dropdown.options[dropdown.value].text);
-          string destination = "Assets/scripts/save.dat";
+          string destination = "Assets/scripts/settings.dat";
          FileStream file;
  
          if(File.Exists(destination)) file = File.OpenWrite(destination);
@@ -112,7 +115,7 @@ public class pause : MonoBehaviour
     } 
     public void LoadFile()
      {
-         string destination ="Assets/scripts/save.dat";
+         string destination ="Assets/scripts/settings.dat";
          FileStream file;
  
          if(File.Exists(destination)) file = File.OpenRead(destination);

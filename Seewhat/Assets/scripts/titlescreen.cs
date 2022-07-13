@@ -18,7 +18,7 @@ public class titlescreen : MonoBehaviour
         
     }
     public void entergame() {
-        SceneManager.LoadSceneAsync("testground");
+        SceneManager.LoadSceneAsync("map");
     }
     public void closegame() {
         Application.Quit();
