@@ -2618,3 +2618,67 @@ C# parse time         : 1021ms
 candidates check time : 251ms
 console write time    : 4ms
 
+[api-updater (non-obsolete-error-filter)] 14/07/2022 14:18:15 : Starting D:/unity/Unity 2020.3.32f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 4676.8958ms
+moved types parse time: 285ms
+candidates parse time : 6ms
+C# parse time         : 3311ms
+candidates check time : 207ms
+console write time    : 3ms
+
+[api-updater (non-obsolete-error-filter)] 14/07/2022 14:56:37 : Starting D:/unity/Unity 2020.3.32f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 1334.7311ms
+moved types parse time: 220ms
+candidates parse time : 5ms
+C# parse time         : 868ms
+candidates check time : 218ms
+console write time    : 2ms
+
+[api-updater (non-obsolete-error-filter)] 14/07/2022 15:23:37 : Starting D:/unity/Unity 2020.3.32f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 1246.6688ms
+moved types parse time: 267ms
+candidates parse time : 9ms
+C# parse time         : 875ms
+candidates check time : 202ms
+console write time    : 3ms
+
+[api-updater (non-obsolete-error-filter)] 14/07/2022 15:54:29 : Starting D:/unity/Unity 2020.3.32f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 812.4093ms
+moved types parse time: 234ms
+candidates parse time : 4ms
+C# parse time         : 926ms
+candidates check time : 482ms
+console write time    : 1ms
+
+[api-updater (non-obsolete-error-filter)] 14/07/2022 16:13:46 : Starting D:/unity/Unity 2020.3.32f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] Exception caught while loading types from D:\Git-files\Chromacat-beta\Seewhat\Library\ScriptAssemblies\Unity.CollabProxy.Editor.dll (some types may not be loaded)
+	Exception of type 'System.Reflection.ReflectionTypeLoadException' was thrown.
+	  at (wrapper managed-to-native) System.Reflection.Assembly.GetTypes(System.Reflection.Assembly,bool)
+  at System.Reflection.Assembly.GetTypes () [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at APIUpdater.NonObsoleteApiUpdaterDetector.ExtraInfoParser+<LoadTypesWithMovedFromAttributeAsync>d__3.MoveNext () [0x000c8] in <68bff7873e0e4aa69a14dfc30bebbe3e>:0 
+	Could not load file or assembly 'UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+
+[api-updater (non-obsolete-error-filter)] Exception caught while loading types from D:\Git-files\Chromacat-beta\Seewhat\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll (some types may not be loaded)
+	Exception of type 'System.Reflection.ReflectionTypeLoadException' was thrown.
+	  at (wrapper managed-to-native) System.Reflection.Assembly.GetTypes(System.Reflection.Assembly,bool)
+  at System.Reflection.Assembly.GetTypes () [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at APIUpdater.NonObsoleteApiUpdaterDetector.ExtraInfoParser+<LoadTypesWithMovedFromAttributeAsync>d__3.MoveNext () [0x000c8] in <68bff7873e0e4aa69a14dfc30bebbe3e>:0 
+	Could not load file or assembly 'UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 497.5957ms
+moved types parse time: 225ms
+candidates parse time : 4ms
+C# parse time         : 1009ms
+candidates check time : 150ms
+console write time    : 3ms
+

@@ -9,13 +9,24 @@ public class gun : MonoBehaviour
     public gun_values gun_values;
     public powerup powerup;
 
-    public AudioSource currentsound;
+    [SerializeField] public Text Currentgun;
+    [SerializeField] public Text Currentammo;
 
     public RaycastHit rayhit;
 
     //bullet holes
     public GameObject bulletholeasset;
     public GameObject muzzleflashasset;
+
+    public float shootValueY=0.0f;
+    public float shootValueX=0.0f;
+    public float slowfall=0.0f;
+
+    public int damage,magsize,pershot, compensation;
+    public float firerate, spread, currentspread, range,reloadtime,shotdelay, minspread,maxspread;
+    public bool automatic,shotgun;
+    public int ammocount, shotsfired;
+    public bool shooting, canshoot,isReloading;
 
     public float currentfirerate;
     public float currentshotdelay;
@@ -26,26 +37,28 @@ public class gun : MonoBehaviour
    
    void Start()
     {
-    
+      canshoot=true;
+    Currentgun.text=(string) "Selected gun:Uzi(0)";
+        Currentammo.text="Ammo count:" + ammocount;
     }
     public IEnumerator shoot() 
     {
-      if (gun_values.automatic) {
-        gun_values.shooting=Input.GetKey(gun_values.keylabels[0]);
+      if (automatic) {
+        shooting=Input.GetKey(gun_values.keylabels[0]);
       }
       else {
-        gun_values.shooting=Input.GetKeyDown(gun_values.keylabels[0]);
+        shooting=Input.GetKeyDown(gun_values.keylabels[0]);
       }
-    if (gun_values.canshoot && gun_values.shooting && !gun_values.isReloading && gun_values.ammocount >0 && gun_values.shotgun) {
-      gun_values.canshoot=false;
+    if (canshoot && shooting && !isReloading && ammocount >0 && shotgun) {
+      canshoot=false;
       yield return StartCoroutine(shotguncode());
       Invoke("resetfire", currentfirerate);
     }
-    if (gun_values.canshoot && gun_values.shooting && !gun_values.isReloading && gun_values.ammocount >0 && !gun_values.shotgun) {
-      gun_values.canshoot=false;
-      if (gun_values.pershot>1) {
+    if (canshoot && shooting && !isReloading && ammocount >0 && !shotgun) {
+      canshoot=false;
+      if (pershot>1) {
 
-      for (int i =0; i<gun_values.pershot;i++) {
+      for (int i =0; i<pershot;i++) {
       yield return StartCoroutine(shootfunc());
       yield return new WaitForSeconds(currentshotdelay);
       }
@@ -55,15 +68,15 @@ public class gun : MonoBehaviour
       }
       Invoke("resetfire", currentfirerate);
     }
-    if (Input.GetKeyDown(gun_values.keylabels[2]) && gun_values.ammocount<gun_values.magsize && gun_values.isReloading==false ) {
+    if (Input.GetKeyDown(gun_values.keylabels[2]) && ammocount<magsize && isReloading==false ) {
       StartCoroutine(reload());
     }
-    if (gun_values.currentspread>0) {
-    gun_values.currentspread-=gun_values.slowfall;
-    gun_values.currentspread=Mathf.Clamp(gun_values.currentspread,gun_values.minspread,gun_values.maxspread);
+    if (currentspread>0) {
+    currentspread-=slowfall;
+    currentspread=Mathf.Clamp(currentspread,minspread,maxspread);
     }
-    if (gun_values.currentspread<0) {
-      gun_values.currentspread=0;
+    if (currentspread<0) {
+      currentspread=0;
     }
     yield return null;
     }
@@ -71,12 +84,12 @@ public class gun : MonoBehaviour
     public IEnumerator shootfunc() 
     {
       //bloom
-      float spreadx=Random.Range(-gun_values.currentspread,gun_values.currentspread);
-      float spready=Random.Range(-gun_values.currentspread,gun_values.currentspread);
+      float spreadx=Random.Range(-currentspread,currentspread);
+      float spready=Random.Range(-currentspread,currentspread);
 
       
-      gun_values.currentspread=Mathf.Clamp(gun_values.currentspread+gun_values.spread,gun_values.minspread,gun_values.maxspread);
-      gun_values.slowfall=gun_values.currentspread/(gun_values.compensation);
+      currentspread=Mathf.Clamp(currentspread+spread,minspread,maxspread);
+      slowfall=currentspread/(compensation);
 
       Vector3 direction =player_mover.CylinderCamera.transform.forward + new Vector3(spreadx,spready,0);
       //Raycasting
@@ -85,9 +98,9 @@ public class gun : MonoBehaviour
         // This would cast rays only against colliders in layer 8.
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
-      if (Physics.Raycast(player_mover.CylinderCamera.transform.position, direction, out rayhit,gun_values.range,layerMask,  QueryTriggerInteraction.UseGlobal)) {       
+      if (Physics.Raycast(player_mover.CylinderCamera.transform.position, direction, out rayhit,range,layerMask,  QueryTriggerInteraction.UseGlobal)) {       
         if (rayhit.collider.CompareTag("Enemy")) {
-          rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(gun_values.damage);
+          rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(damage);
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
           rayhit.collider.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");
           foreach(GameObject enem in GameObject.FindGameObjectsWithTag("Enemy")) {
@@ -102,19 +115,19 @@ public class gun : MonoBehaviour
       }
 
       //Bullets
-      gun_values.ammocount--;
+      ammocount--;
       Instantiate(muzzleflashasset, gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
-      currentsound.Play();
-      gun_values.Currentammo.text="Ammo count:" + gun_values.ammocount;
+      gameObject.GetComponent<AudioSource>().Play();
+      Currentammo.text="Ammo count:" + ammocount;
       yield return StartCoroutine(player_mover.MouseLook());
       }
 
       public IEnumerator shotguncode() 
     {
-      for (int i=0;i<gun_values.pershot; i++) {
+      for (int i=0;i<pershot; i++) {
       //bloom
-      float spreadx=Random.Range(-gun_values.currentspread,gun_values.currentspread);
-      float spready=Random.Range(-gun_values.currentspread,gun_values.currentspread);
+      float spreadx=Random.Range(-currentspread,currentspread);
+      float spready=Random.Range(-currentspread,currentspread);
 
       Vector3 direction =player_mover.CylinderCamera.transform.forward + new Vector3(spreadx,spready,0);
       //Raycasting
@@ -123,9 +136,9 @@ public class gun : MonoBehaviour
         // This would cast rays only against colliders in layer 8.
         // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
         layerMask = ~layerMask;
-      if (Physics.Raycast(player_mover.CylinderCamera.transform.position, direction, out rayhit,gun_values.range,layerMask,  QueryTriggerInteraction.UseGlobal)) {       
+      if (Physics.Raycast(player_mover.CylinderCamera.transform.position, direction, out rayhit,range,layerMask,  QueryTriggerInteraction.UseGlobal)) {       
        if (rayhit.collider.CompareTag("Enemy")) {
-          rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(gun_values.damage);
+          rayhit.collider.GetComponentInParent<enemy_behaviour>().TakeDamage(damage);
           rayhit.collider.GetComponentInParent<enemy_behaviour>().ishostile=true;
           rayhit.collider.GetComponentInParent<enemy_behaviour>().target=GameObject.Find("Cylinder");
           foreach(GameObject enem in GameObject.FindGameObjectsWithTag("Enemy")) {
@@ -138,35 +151,35 @@ public class gun : MonoBehaviour
         }   
       }
       }
-      gun_values.currentspread=Mathf.Clamp(gun_values.currentspread+gun_values.spread,gun_values.minspread,gun_values.maxspread);
-      gun_values.slowfall=gun_values.currentspread/(currentcompensation);
+      currentspread=Mathf.Clamp(currentspread+spread,minspread,maxspread);
+      slowfall=currentspread/(currentcompensation);
 
 
-      gun_values.ammocount--;
+      ammocount--;
       Instantiate(muzzleflashasset,gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
-      currentsound.Play();
-      gun_values.Currentammo.text="Ammo count:" + gun_values.ammocount;
+      gameObject.GetComponent<AudioSource>().Play();
+      Currentammo.text="Ammo count:" + ammocount;
       //Bullets      
       yield return StartCoroutine(player_mover.MouseLook());
       }
 
 
     public void resetfire() {
-      gun_values.canshoot=true;
+      canshoot=true;
     }
 
 
     public IEnumerator reload()
     {
-      gun_values.isReloading =true;
+      isReloading =true;
       Invoke("ReloadFinished",currentreload);
-      gun_values.Currentammo.text="Ammo count: Reloading...";
+      Currentammo.text="Ammo count: Reloading...";
       yield return null;
     }
     public void ReloadFinished() {
-      gun_values.ammocount=gun_values.magsize;
-      gun_values.isReloading=false;
-      gun_values.Currentammo.text="Ammo count:" + gun_values.ammocount;
+      ammocount=magsize;
+      isReloading=false;
+      Currentammo.text="Ammo count:" + ammocount;
     }
 
     
@@ -174,5 +187,6 @@ public class gun : MonoBehaviour
     {
       gun_values.pistol.SetActive(true);
       gun_values.revolver.SetActive(true);
+      gun_values.shotgunmod.SetActive(true);
     }
 }
