@@ -41,7 +41,9 @@ public class gun_values : MonoBehaviour
         gun=current_gun.GetComponent<gun>();
         player_mover.gun=current_gun.GetComponent<gun>();
         gun_number=0;
-        canshoot=true;
+        gun.canshoot=true;
+    gun.Currentgun.text=(string) "Selected gun:Uzi(0)";
+        gun.Currentammo.text="Ammo count:" + gun.ammocount;
 
 
         basenemy=GameObject.Find("simpleenemy");
@@ -96,6 +98,8 @@ public class gun_values : MonoBehaviour
       
 
       gun.currentspread=Mathf.Clamp(gun.currentspread,gun.minspread,gun.maxspread);
+
+      gun.canshoot=true;
 
       StartCoroutine(gun.reload());
       yield return null;

@@ -37,9 +37,6 @@ public class gun : MonoBehaviour
    
    void Start()
     {
-      canshoot=true;
-    Currentgun.text=(string) "Selected gun:Uzi(0)";
-        Currentammo.text="Ammo count:" + ammocount;
     }
     public IEnumerator shoot() 
     {

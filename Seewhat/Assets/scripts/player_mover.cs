@@ -107,7 +107,7 @@ public class player_mover : MonoBehaviour
         crosshair3.GetComponent<RectTransform>().anchoredPosition =new Vector3(15,-15,0) + (new Vector3((200*gun.currentspread),-(200*gun.currentspread),0)) ;
         crosshair4.GetComponent<RectTransform>().anchoredPosition =new Vector3(-15,-15,0) + (new Vector3(-(200*gun.currentspread),-(200*gun.currentspread),0)) ;
 
-        if(currentMouseDelta.x>= 0.05f * mouseSensitivity) {
+        /*if(currentMouseDelta.x>= 0.05f * mouseSensitivity) {
          CylinderCube.localEulerAngles=new Vector3(0,0,-5f);
         };
         if(currentMouseDelta.x<= -0.05f * mouseSensitivity) {
@@ -116,7 +116,9 @@ public class player_mover : MonoBehaviour
         if(currentMouseDelta.x>= -0.05f * mouseSensitivity && currentMouseDelta.x<= 0.05f * mouseSensitivity ) {
        CylinderCube.localEulerAngles=new Vector3(0,0,0);
         };
+        */
                 CylinderCamera.transform.localEulerAngles = new Vector3 (currentcamy,currentcamx,0);
+        
         yield return null;
         
     }
