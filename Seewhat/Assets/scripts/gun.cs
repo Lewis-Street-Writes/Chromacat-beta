@@ -25,7 +25,7 @@ public class gun : MonoBehaviour
     public int damage,magsize,pershot, compensation;
     public float firerate, spread, currentspread, range,reloadtime,shotdelay, minspread,maxspread;
     public bool automatic,shotgun;
-    public int ammocount, shotsfired;
+    public int ammocount, shotsfired,reserveammo;
     public bool shooting, canshoot,isReloading;
 
     public float currentfirerate;
@@ -115,7 +115,7 @@ public class gun : MonoBehaviour
       ammocount--;
       Instantiate(muzzleflashasset, gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
       gameObject.GetComponent<AudioSource>().Play();
-      Currentammo.text="Ammo count:" + ammocount;
+      Currentammo.text="Ammo count:" + ammocount + "/" + reserveammo;
       yield return StartCoroutine(player_mover.MouseLook());
       }
 
@@ -155,7 +155,7 @@ public class gun : MonoBehaviour
       ammocount--;
       Instantiate(muzzleflashasset,gameObject.transform.position+ gameObject.transform.forward, Quaternion.identity); 
       gameObject.GetComponent<AudioSource>().Play();
-      Currentammo.text="Ammo count:" + ammocount;
+      Currentammo.text="Ammo count:" + ammocount + "/" + reserveammo;
       //Bullets      
       yield return StartCoroutine(player_mover.MouseLook());
       }
@@ -168,15 +168,24 @@ public class gun : MonoBehaviour
 
     public IEnumerator reload()
     {
+      if (ammocount<magsize && reserveammo>0) {
       isReloading =true;
       Invoke("ReloadFinished",currentreload);
       Currentammo.text="Ammo count: Reloading...";
+      }
       yield return null;
     }
     public void ReloadFinished() {
+      if (reserveammo>=(magsize-ammocount)) {
+      reserveammo+=-(magsize-ammocount);
       ammocount=magsize;
+      }
+      else {
+        ammocount=reserveammo;
+        reserveammo=0;
+      }
       isReloading=false;
-      Currentammo.text="Ammo count:" + ammocount;
+      Currentammo.text="Ammo count:" + ammocount + "/" + reserveammo;
     }
 
     

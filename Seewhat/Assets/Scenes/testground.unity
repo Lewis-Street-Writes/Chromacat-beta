@@ -1739,6 +1739,7 @@ MonoBehaviour:
   shotgun: 0
   ammocount: 10
   shotsfired: 0
+  reserveammo: 50
   shooting: 0
   canshoot: 0
   isReloading: 0
@@ -2086,6 +2087,7 @@ MonoBehaviour:
   shotgun: 1
   ammocount: 6
   shotsfired: 0
+  reserveammo: 30
   shooting: 0
   canshoot: 0
   isReloading: 0
@@ -2670,6 +2672,7 @@ MonoBehaviour:
   shotgun: 0
   ammocount: 30
   shotsfired: 0
+  reserveammo: 150
   shooting: 0
   canshoot: 0
   isReloading: 0

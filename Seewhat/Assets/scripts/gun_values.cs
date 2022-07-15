@@ -42,9 +42,13 @@ public class gun_values : MonoBehaviour
         player_mover.gun=current_gun.GetComponent<gun>();
         gun_number=0;
         gun.canshoot=true;
-    gun.Currentgun.text=(string) "Selected gun:Uzi(0)";
-        gun.Currentammo.text="Ammo count:" + gun.ammocount;
+        gun.Currentgun.text=GameObject.Find("Camera").transform.GetChild(gun_number).gameObject.name;
+        gun.Currentammo.text="Ammo count:" + gun.ammocount + "/" + gun.reserveammo;
 
+        gun.currentfirerate=gun.firerate;
+        gun.currentshotdelay=gun.shotdelay/10-(powerup.totalheat/100);
+        gun.currentcompensation=gun.compensation+(powerup.totalheat/50);
+        gun.currentreload=gun.reloadtime-(powerup.totalheat/80);
 
         basenemy=GameObject.Find("simpleenemy");
         for (int i=-50;i<50;i+=10) {
@@ -66,29 +70,39 @@ public class gun_values : MonoBehaviour
             current_gun.SetActive(false);
         }
       if (Input.GetKeyDown(keylabels[4])) {
-        gun_number=0;
+        if (gun_number==0) {
+          yield return null;
+        }
+        else{gun_number=0;}
       }
       //Pistol
       if (Input.GetKeyDown(keylabels[5])) {
-        gun_number=1;
+        if (gun_number==1) {
+          yield return null;
+        }
+        else{gun_number=1;}
+      }
+      if (Input.GetKeyDown(keylabels[6])) {
+       if (gun_number==2) {
+          yield return null;
+        }
+        else{gun_number=2;}
       }
       //Assault rifle
-      if (Input.GetKeyDown(keylabels[6])) {
-       //gun_number=2;
-      }
-      //Shotgun
-      if (Input.GetKeyDown(keylabels[7])) {
+      /*if (Input.GetKeyDown(keylabels[7])) {
        gun_number=2;
-      }
+      }*/
+      //Shotgun
      
         gun.Currentgun.text=GameObject.Find("Camera").transform.GetChild(gun_number).gameObject.name;
         current_gun=GameObject.Find("Camera").transform.GetChild(gun_number).gameObject;
         
-
+      gun.Currentammo.text="Switching";
       current_gun.SetActive(true);
       player_mover.CylinderCube=current_gun.transform;
       player_mover.gun=current_gun.GetComponent<gun>();
       gun=current_gun.GetComponent<gun>();
+      
 
 
       gun.currentfirerate=gun.firerate;
@@ -100,8 +114,8 @@ public class gun_values : MonoBehaviour
       gun.currentspread=Mathf.Clamp(gun.currentspread,gun.minspread,gun.maxspread);
 
       gun.canshoot=true;
+      gun.Currentammo.text="Ammo count:" + gun.ammocount + "/" + gun.reserveammo;
 
-      StartCoroutine(gun.reload());
       yield return null;
     }
 }
