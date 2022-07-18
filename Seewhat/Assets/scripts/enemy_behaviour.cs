@@ -24,6 +24,7 @@ public class enemy_behaviour : MonoBehaviour
     //bullet holes
     public GameObject bulletholeasset;
      public GameObject muzzleflashasset;
+     public GameObject ammobox;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +70,7 @@ public class enemy_behaviour : MonoBehaviour
     void death() {
         alive=false;
         ishostile=false;
+        Instantiate(ammobox,gameObject.transform.position, Quaternion.identity); 
         gameObject.SetActive(false);
         Invoke("respawn",respawnTime);
     }

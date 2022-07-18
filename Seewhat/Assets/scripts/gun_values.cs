@@ -66,9 +66,6 @@ public class gun_values : MonoBehaviour
     }
     public IEnumerator guns() {
       //Uzi
-        if (current_gun.activeSelf==true) {
-            current_gun.SetActive(false);
-        }
       if (Input.GetKeyDown(keylabels[4])) {
         if (gun_number==0) {
           yield return null;
@@ -93,6 +90,9 @@ public class gun_values : MonoBehaviour
        gun_number=2;
       }*/
       //Shotgun
+       if (current_gun.activeSelf==true) {
+            current_gun.SetActive(false);
+        }
      
         gun.Currentgun.text=GameObject.Find("Camera").transform.GetChild(gun_number).gameObject.name;
         current_gun=GameObject.Find("Camera").transform.GetChild(gun_number).gameObject;

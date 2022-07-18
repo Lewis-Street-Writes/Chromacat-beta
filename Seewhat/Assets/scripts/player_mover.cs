@@ -172,6 +172,11 @@ public class player_mover : MonoBehaviour
             powerup.decreaseheat();
         }
     }
+        void OnTriggerEnter(Collider collider) {
+        if (collider.name=="ammobox(Clone)") {
+            powerup.refillammo(collider);
+        }
+            }
     public void playertakeDamage(int enemydamage) {
         health+= -enemydamage;
         Currenthealth.text=health.ToString();

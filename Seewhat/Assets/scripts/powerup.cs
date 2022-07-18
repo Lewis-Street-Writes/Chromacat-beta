@@ -13,6 +13,8 @@ public class powerup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player_mover=GameObject.Find("Cylinder").GetComponent<player_mover>();
+        heatgauge=GameObject.Find("heatfill").GetComponent<Image>();
         heatgauge.fillAmount = Mathf.Clamp(totalheat/100,0.0f, 1f);
         heatedges=GameObject.FindGameObjectsWithTag("heatedge");
         foreach (GameObject edge in heatedges)
@@ -49,5 +51,11 @@ public class powerup : MonoBehaviour
         {
             edge.GetComponent<Image>().color=new Color32(241,170,93,currentcolour);
         }
+    }
+    public void refillammo(Collider sprit) {
+        player_mover.gun.ammocount=player_mover.gun.magsize;
+        player_mover.gun.reserveammo=player_mover.gun.magsize*5;
+        player_mover.gun.Currentammo.text="Ammo count:" + player_mover.gun.ammocount + "/" + player_mover.gun.reserveammo;
+        Destroy(sprit.gameObject);
     }
 }
